@@ -1,7 +1,7 @@
 import express  from "express";
 import { validationResponse } from "../middleware/validationResponse";
 import { body } from "express-validator";
-import { register } from "../controllers/authController";
+import { login, register } from "../controllers/authController";
 
 const router = express.Router();
 
@@ -24,5 +24,18 @@ router.post('/register', [
     .isLength({min:8, max:32})
     .withMessage("password must be atleast 8 characters and cannot exceeed 32 characters"),
 ], validationResponse, register);
+
+router.post('/login', [
+    body('email')
+    .notEmpty()
+    .withMessage("email is required")
+    .isEmail()
+    .withMessage("email format is wrong"),
+    body('password')
+    .notEmpty()
+    .withMessage("password is required")
+    .isLength({min:8, max:32})
+    .withMessage("password must be atleast 8 characters and cannot exceeed 32 characters"),
+], validationResponse, login);
 
 export default router;

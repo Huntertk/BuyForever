@@ -3,3 +3,8 @@ export type TypeRegisterInputPayload = {
     email:string;
     password:string;
 }
+
+export type TypeLoginInputPayload = {
+    email:string;
+    password:string;
+}
