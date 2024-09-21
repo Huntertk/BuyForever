@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import User from "../models/userModel";
 import type {TypeLoginInputPayload, TypeRegisterInputPayload} from '../utils/types';
 import AppError from "../error/customError";
-import { generateJsonWebToken } from "../utils/generateJWT";
+import { generateJsonWebToken } from "../utils/jwt";
 import bcrypt from  'bcryptjs';
 
 export const register = async (req:Request, res:Response, next:NextFunction) => {
@@ -16,7 +16,7 @@ export const register = async (req:Request, res:Response, next:NextFunction) => 
         const newUser = await User.create(registerInputPayload);
         const token = generateJsonWebToken(newUser._id);
         
-        res.cookie('auth-token', token, {
+        res.cookie('auth_token', token, {
             httpOnly:true,
             secure: process.env.NODE_ENV === 'production',
             maxAge:1000*60*60*24*1
@@ -31,7 +31,7 @@ export const register = async (req:Request, res:Response, next:NextFunction) => 
 export const login = async (req:Request, res:Response, next:NextFunction) => {
     const loginInputPayload:TypeLoginInputPayload = req.body;
     try {
-        const user = await User.findOne({email:loginInputPayload.email})
+        const user = await User.findOne({email:loginInputPayload.email}).select("+password")
         if(!user){
             return next(new AppError("Wrong Credentials", 400))
         }
@@ -43,7 +43,7 @@ export const login = async (req:Request, res:Response, next:NextFunction) => {
 
         const token = generateJsonWebToken(user._id);
         
-        res.cookie('auth-token', token, {
+        res.cookie('auth_token', token, {
             httpOnly:true,
             secure: process.env.NODE_ENV === 'production',
             maxAge:1000*60*60*24*1

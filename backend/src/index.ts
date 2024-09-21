@@ -2,7 +2,9 @@ import 'dotenv/config';
 import expres, {Request, Response} from 'express';
 import errorHandler  from './middleware/errorMiddleware';
 import mongoose from 'mongoose';
+import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRoutes';
+import userRouter from './routes/userRoutes';
 
 
 //Express App Initialization
@@ -11,7 +13,7 @@ const PORT = process.env.PORT || 4000;
 
 //Middleware
 app.use(expres.json());
-
+app.use(cookieParser());
 
 //Routes
 app.get('/health', (req:Request, res:Response) => {
@@ -19,6 +21,7 @@ app.get('/health', (req:Request, res:Response) => {
 })
 
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/users', userRouter);
 
 //Global Error Handler
 app.use(errorHandler);

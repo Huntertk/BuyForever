@@ -6,7 +6,9 @@ type TypeUserSchema = {
     name:string;
     email:string;
     password:string;
-    role:"user" | "admin"
+    role:"user" | "admin",
+    resetPasswordToken:string;
+    resetPasswordExpiredAt:Date
 }
 
 
@@ -22,13 +24,16 @@ const userSchema = new mongoose.Schema({
     },
     password:{
         type:String,
-        required:true
+        required:true,
+        select:false,
     },
     role:{
         type:String,
         default:"user",
         enum:["user", "admin"]
-    }
+    },
+    resetPasswordToken:String,
+    resetPasswordExpiredAt:Date,
 }, {timestamps:true})
 
 userSchema.pre('save', async function(next){
