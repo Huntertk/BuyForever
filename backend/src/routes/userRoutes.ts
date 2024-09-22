@@ -14,15 +14,11 @@ router.put('/me/update',
     authUser,
     [
         body('name')
-        .notEmpty()
-        .withMessage("name is required")
         .isString()
         .withMessage("name must be in string")
         .isLength({max:50})
         .withMessage("name cannot exceeed 50 characters"),
         body('email')
-        .notEmpty()
-        .withMessage("email is required")
         .isEmail()
         .withMessage("email format is wrong"),
     ],

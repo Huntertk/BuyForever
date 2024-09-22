@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
+import productRouter from './routes/productRoutes';
 
 
 //Express App Initialization
@@ -22,12 +23,13 @@ app.get('/health', (req:Request, res:Response) => {
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
+app.use('/api/v1/product', productRouter);
 
 //Global Error Handler
 app.use(errorHandler);
 
 
-//Server Listen
+//Server Listen and DB Connect
 const dbConn = async () => {
     try {
         await mongoose.connect(process.env.DB_URI as string);
@@ -35,7 +37,6 @@ const dbConn = async () => {
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
         })
-        
     } catch (error) {
         console.log(error);
     }

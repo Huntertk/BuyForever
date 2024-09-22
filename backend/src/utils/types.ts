@@ -17,3 +17,13 @@ export type TypeUpdateMeInputPayload = {
 export type TypeUpdateMyPasswordInputPayload = {
     password:string;
 }
+
+export type TypeNewProductInputPayload = {
+    title:string;
+    description:string;
+    images:[string],
+    category:string;
+    price:number;
+    stock:number;
+    isFeatured:boolean;
+}
