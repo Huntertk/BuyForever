@@ -30,7 +30,7 @@ app.use(errorHandler);
 //Server Listen
 const dbConn = async () => {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/ForeverBuy');
+        await mongoose.connect(process.env.DB_URI as string);
         console.log("Db is connected to application");
         app.listen(PORT, () => {
             console.log(`Server is running on port ${PORT}`);
