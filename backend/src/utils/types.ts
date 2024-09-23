@@ -40,7 +40,7 @@ export type TypeBaseQuery = {
 export type TypeProductQuery = {
     search?:string;
     category?:string;
-    sortby?:string
+    sortby?:string;
 }
 
 export type TypeSortQuery = {

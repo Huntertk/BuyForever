@@ -55,15 +55,13 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
     if(sortby === 'desc'){
         sort.title = -1
     }
-    console.log(sort);
     
         
     try{
         const products = await Product.find(baseQuery)
         .limit(limit)
         .skip(skip)
-        .sort(sort);
-
+        .sort(sort)
         const filteredProducts = await Product.find(baseQuery);
 
         const totalPage = Math.ceil(filteredProducts.length / limit);
