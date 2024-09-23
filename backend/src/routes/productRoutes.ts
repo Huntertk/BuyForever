@@ -1,6 +1,6 @@
 import express from 'express';
 import { authorizeRoles, authUser } from '../middleware/authMiddleware';
-import { createNewProduct, getAllProducts, getProduct, updateProduct } from '../controllers/productController';
+import { createNewProduct, deleteProduct, getAllProducts, getProduct, updateProduct } from '../controllers/productController';
 import { validationResponse } from '../middleware/validationResponse';
 import { body } from 'express-validator';
 
@@ -53,6 +53,11 @@ router.put('/update',
     authUser,
     authorizeRoles('admin'),
     updateProduct
+)
+router.delete('/delete',
+    authUser,
+    authorizeRoles('admin'),
+    deleteProduct
 )
 
 export default router;

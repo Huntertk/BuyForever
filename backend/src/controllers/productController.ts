@@ -71,3 +71,17 @@ export const updateProduct = async(req:Request, res:Response, next:NextFunction)
         return next(error);
     }
 }
+
+export const deleteProduct = async(req:Request, res:Response, next:NextFunction) => {
+    try {
+        const deleteProductInputPayload:{productId:string} = req.body;
+       const product = await Product.findById(deleteProductInputPayload.productId);
+       if(!product){
+        return next(new AppError("Product not found", 404))
+       }
+        await product.deleteOne();
+        return res.status(201).json({message:"Product is deleted"})
+    } catch (error) {
+        return next(error);
+    }
+}
