@@ -27,3 +27,23 @@ export type TypeNewProductInputPayload = {
     stock:number;
     isFeatured:boolean;
 }
+
+export type TypeBaseQuery = {
+    title?:{
+        $regex:string;
+        $options:string;
+    };
+    category?:string;
+}
+
+
+export type TypeProductQuery = {
+    search?:string;
+    category?:string;
+    sortby?:string
+}
+
+export type TypeSortQuery = {
+    price?:1|-1;
+    title?:1|-1;
+}

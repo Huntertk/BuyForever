@@ -1,6 +1,6 @@
 import express from 'express';
 import { authorizeRoles, authUser } from '../middleware/authMiddleware';
-import { createNewProduct, deleteProduct, getAllProducts, getProduct, updateProduct } from '../controllers/productController';
+import { createNewProduct, deleteProduct, getAllProducts, getProduct, getProducts, updateProduct } from '../controllers/productController';
 import { validationResponse } from '../middleware/validationResponse';
 import { body } from 'express-validator';
 
@@ -47,7 +47,9 @@ router.post('/new',
     createNewProduct
 )
 
-router.get('/', getAllProducts)
+router.get('/admin/all-products', authUser, authorizeRoles('admin'), getAllProducts)
+
+router.get('/', getProducts)
 router.get('/:id', getProduct)
 router.put('/update',
     authUser,

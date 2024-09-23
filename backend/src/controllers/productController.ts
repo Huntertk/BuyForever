@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Product from "../models/productModel";
-import type { TypeNewProductInputPayload } from "../utils/types";
+import type { TypeBaseQuery, TypeNewProductInputPayload, TypeProductQuery, TypeSortQuery } from "../utils/types";
 import AppError from "../error/customError";
 
 export const createNewProduct = async(req:Request, res:Response, next:NextFunction) => {
@@ -17,6 +17,62 @@ export const getAllProducts = async(req:Request, res:Response, next:NextFunction
     try {
        const products = await Product.find();
         return res.status(201).json(products)
+    } catch (error) {
+        return next(error);
+    }
+}
+
+export const getProducts = async(req:Request, res:Response, next:NextFunction) => {
+    const {search,category, sortby}:TypeProductQuery = req.query;
+
+    const page:number = Number(req.query.page) || 1;
+    const limit:number = 10;
+    const skip:number = (page - 1) * limit;
+    const baseQuery:TypeBaseQuery = {}
+    const sort:TypeSortQuery = {};
+
+    if(search){
+        baseQuery.title = {
+            $regex:search,
+            $options:"i"
+        }
+    }
+
+    if(category){
+        baseQuery.category = category
+    }
+
+    if(sortby === 'low'){
+        sort.price = 1
+    }
+    if(sortby === 'high'){
+        sort.price = -1
+    }
+
+    if(sortby === 'asc'){
+        sort.title = 1
+    }
+    if(sortby === 'desc'){
+        sort.title = -1
+    }
+    console.log(sort);
+    
+        
+    try{
+        const products = await Product.find(baseQuery)
+        .limit(limit)
+        .skip(skip)
+        .sort(sort);
+
+        const filteredProducts = await Product.find(baseQuery);
+
+        const totalPage = Math.ceil(filteredProducts.length / limit);
+
+        return res.status(200).json({
+            success:true,
+            totalPage,
+            products
+        })
     } catch (error) {
         return next(error);
     }
