@@ -34,6 +34,7 @@ export type TypeBaseQuery = {
         $options:string;
     };
     category?:string;
+    isFeatured?:boolean;
 }
 
 
@@ -41,4 +42,6 @@ export type TypeProductQuery = {
     search?:string;
     category?:string;
     sortby?:string;
+    featured?:boolean;
+    fields?:string;
 }

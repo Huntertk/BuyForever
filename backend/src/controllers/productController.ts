@@ -23,13 +23,14 @@ export const getAllProducts = async(req:Request, res:Response, next:NextFunction
 }
 
 export const getProducts = async(req:Request, res:Response, next:NextFunction) => {
-    const {search,category, sortby}:TypeProductQuery = req.query;
+    const {search,category, sortby, featured, fields}:TypeProductQuery = req.query;
 
     const page:number = Number(req.query.page) || 1;
     const limit:number = 10;
     const skip:number = (page - 1) * limit;
     const baseQuery:TypeBaseQuery = {}
     let sort:string = "-createdAt";
+    let fieldsQuery:string = "-__v";
 
     if(search){
         baseQuery.title = {
@@ -42,8 +43,16 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
         baseQuery.category = category
     }
 
+    if(featured){
+        baseQuery.isFeatured = featured
+    }
+
     if(sortby){
         sort = sortby
+    }
+
+    if(fields){
+        fieldsQuery = fields
     }
     
         
@@ -52,6 +61,7 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
         .sort(sort)
         .limit(limit)
         .skip(skip)
+        .select(fieldsQuery)
 
         const filteredProducts = await Product.find(baseQuery);
 
