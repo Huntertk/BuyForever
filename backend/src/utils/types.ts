@@ -42,8 +42,3 @@ export type TypeProductQuery = {
     category?:string;
     sortby?:string;
 }
-
-export type TypeSortQuery = {
-    price?:1|-1;
-    title?:1|-1;
-}

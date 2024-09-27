@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Product from "../models/productModel";
-import type { TypeBaseQuery, TypeNewProductInputPayload, TypeProductQuery, TypeSortQuery } from "../utils/types";
+import type { TypeBaseQuery, TypeNewProductInputPayload, TypeProductQuery } from "../utils/types";
 import AppError from "../error/customError";
 
 export const createNewProduct = async(req:Request, res:Response, next:NextFunction) => {
@@ -29,7 +29,7 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
     const limit:number = 10;
     const skip:number = (page - 1) * limit;
     const baseQuery:TypeBaseQuery = {}
-    const sort:TypeSortQuery = {};
+    let sort:string = "-createdAt";
 
     if(search){
         baseQuery.title = {
@@ -42,26 +42,17 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
         baseQuery.category = category
     }
 
-    if(sortby === 'low'){
-        sort.price = 1
-    }
-    if(sortby === 'high'){
-        sort.price = -1
-    }
-
-    if(sortby === 'asc'){
-        sort.title = 1
-    }
-    if(sortby === 'desc'){
-        sort.title = -1
+    if(sortby){
+        sort = sortby
     }
     
         
     try{
         const products = await Product.find(baseQuery)
+        .sort(sort)
         .limit(limit)
         .skip(skip)
-        .sort(sort)
+
         const filteredProducts = await Product.find(baseQuery);
 
         const totalPage = Math.ceil(filteredProducts.length / limit);
