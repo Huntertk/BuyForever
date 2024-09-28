@@ -25,13 +25,17 @@ const productSchema = new mongoose.Schema({
     type:String,
     required: true
   },
+  subCategory:{
+    type:String,
+    required: true,
+  },
   price:{
     type:Number,
     required: true
   },
   stock:{
     type:Number,
-    required: true
+    default: 5
   },
   isFeatured:{
     type:Boolean,
@@ -40,6 +44,12 @@ const productSchema = new mongoose.Schema({
 
 },{timestamps:true});
 
+
+productSchema.pre('save', function(next){
+  this.category = this.category.toLowerCase()
+  this.subCategory = this.subCategory.toLowerCase()
+  next()
+})
 
 const Product = mongoose.model<TypeProduct>('Product', productSchema);
 
