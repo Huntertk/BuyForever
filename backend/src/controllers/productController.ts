@@ -23,7 +23,7 @@ export const getAllProducts = async(req:Request, res:Response, next:NextFunction
 }
 
 export const getProducts = async(req:Request, res:Response, next:NextFunction) => {
-    const {search,category, sortby, featured, fields}:TypeProductQuery = req.query;
+    const {search,category, sortby,subcategory, featured, fields}:TypeProductQuery = req.query;
 
     const page:number = Number(req.query.page) || 1;
     const limit:number = 10;
@@ -39,6 +39,9 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
         }
     }
 
+    if(subcategory){
+        baseQuery.subCategory = subcategory
+    }
     if(category){
         baseQuery.category = category
     }
