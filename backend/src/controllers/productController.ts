@@ -55,7 +55,8 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
     }
 
     if(fields){
-        fieldsQuery = fields
+        const formatField = fields.split(',').join(' ')
+        fieldsQuery = formatField
     }
     
         
