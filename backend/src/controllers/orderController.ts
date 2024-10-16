@@ -28,3 +28,47 @@ export const createOrderByCOD = async (req:Request, res:Response, next:NextFunct
         return next(error);
     }
 }
+
+export const getAllOrders = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        const orders = await Order.find()
+        return res.status(200).json(orders);
+    } catch (error) {
+        return next(error)
+    }
+} 
+
+export const getOrderDetails = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        if(!req.query.orderId){
+            return next(new AppError("Order id not found", 404));
+
+        }
+        const order = await Order.findById(req.query.orderId).populate({
+            path:'userId',
+            select:"name email"
+        })
+        if(!order){
+            return next(new AppError("Order not found", 404));
+        }
+
+        return res.status(200).json(order);
+    } catch (error) {
+        return next(error)
+    }
+} 
+
+
+export const getMyOrders = async (req:Request, res:Response, next:NextFunction) => {
+    try {
+        
+        const order = await Order.find({userId:req.userId})
+        if(order.length < 1){
+            return next(new AppError("Order not found", 404));
+        }
+
+        return res.status(200).json(order);
+    } catch (error) {
+        return next(error)
+    }
+} 
