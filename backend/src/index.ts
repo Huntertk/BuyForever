@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
 import productRouter from './routes/productRoutes';
+import orderRouter from './routes/orderRoutes';
 
 
 //Express App Initialization
@@ -24,6 +25,7 @@ app.get('/health', (req:Request, res:Response) => {
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/product', productRouter);
+app.use('/api/v1/order', orderRouter);
 
 //Global Error Handler
 app.use(errorHandler);
