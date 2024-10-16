@@ -47,3 +47,10 @@ export type TypeProductQuery = {
     featured?:boolean;
     fields?:string;
 }
+
+
+export type TypeUpdateOrder = {
+    orderId:string;
+    orderStatus:"Processing"|"Shipped"|"Delivered";
+    paymentStatus:"pending"|"paid";
+}
