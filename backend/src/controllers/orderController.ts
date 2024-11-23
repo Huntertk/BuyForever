@@ -14,9 +14,6 @@ export const createOrderByCOD = async (req:Request, res:Response, next:NextFunct
         if(createOrderInputPayload.orderItems.length < 1){
             return next(new AppError("Please Provide Order Item", 400))
         }
-        // if(!createOrderInputPayload.itemsPrice || !createOrderInputPayload.totalAmount){
-        //     return next(new AppError("Please Provide Items And Total Price", 400))
-        // }
 
         if(createOrderInputPayload.paymentMethod !== 'COD'){
             return next(new AppError("Selecting Wrong Payment Method", 400))
@@ -61,7 +58,7 @@ export const createOrderByCOD = async (req:Request, res:Response, next:NextFunct
 
 export const getAllOrders = async (req:Request, res:Response, next:NextFunction) => {
     try {
-        const orders = await Order.find()
+        const orders = await Order.find();
         return res.status(200).json(orders);
     } catch (error) {
         return next(error)
@@ -109,6 +106,11 @@ export const updateOrder = async (req:Request, res:Response, next:NextFunction) 
         if(!updateOrderInputPayload.orderId){
             return next(new AppError("Order Id not found", 404))
         }
+        if(updateOrderInputPayload.orderStatus === 'Cancelled'){
+            if(!updateOrderInputPayload.orderRemarks){
+                return next(new AppError("Please write a remarks for cancelling order", 404))
+            }
+        }
         const order = await Order.findById(updateOrderInputPayload.orderId);
         if(!order){
             return next(new AppError("Order not found", 404))
@@ -120,17 +122,36 @@ export const updateOrder = async (req:Request, res:Response, next:NextFunction) 
             return next(new AppError("Order already cancelled", 400))
         }
         
+        
+
+        if(updateOrderInputPayload.orderStatus === 'Cancelled'){
+            for (let i = 0; i < order.orderItems.length; i++) {
+                const product = await Product.findById(order.orderItems[i].productId);
+                if(!product){
+                    return next(new AppError("Product not found with this id", 404))
+                }
+                product.stock =  product.stock + order.orderItems[i].quantity
+                await product.save();
+            }
+
+            if(req.body.orderRemarks){
+                order.orderRemarks = updateOrderInputPayload.orderRemarks
+            }
+        }
+
+       
+        if(updateOrderInputPayload.orderStatus === 'Delivered'){
+            if(!updateOrderInputPayload.paymentStatus){
+                return next(new AppError("Please provide payment status", 400))
+            }
+            order.deliverdAt = new Date(Date.now());
+            order.orderRemarks = "Delivered"
+        }
+
         if(req.body.paymentStatus){
             order.paymentStatus = updateOrderInputPayload.paymentStatus
         }
 
-        if(req.body.orderRemarks){
-            order.orderRemarks = updateOrderInputPayload.orderRemarks
-        }
-
-        if(updateOrderInputPayload.orderStatus === 'Delivered'){
-            order.deliverdAt = new Date(Date.now());
-        }
         order.orderStatus = updateOrderInputPayload.orderStatus
         await order.save();
         return res.status(200).json("Order Updated Successfully");
