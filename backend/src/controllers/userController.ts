@@ -65,15 +65,15 @@ export const updateMe = async (req:Request, res:Response, next:NextFunction) => 
 
 export const updateMyPassword = async (req:Request, res:Response, next:NextFunction) => {
     try {
-        const updateMYPasswordPayload:TypeUpdateMyPasswordInputPayload = req.body;
+        const updateMyPasswordPayload:TypeUpdateMyPasswordInputPayload = req.body;
 
         const user = await User.findById(req.userId);
         if(!user){
             return next(new AppError("User not available", 404))
         }
         
-        if(updateMYPasswordPayload.password){
-            user.password = updateMYPasswordPayload.password
+        if(updateMyPasswordPayload.password){
+            user.password = updateMyPasswordPayload.password
         }
         await user.save();
         return res.status(200).json("user password updated successfully");

@@ -6,6 +6,7 @@ type TypeProduct = {
     description:string;
     images:[string],
     category:string;
+    subCategory:string;
     price:number;
     stock:number;
     isFeatured:boolean;

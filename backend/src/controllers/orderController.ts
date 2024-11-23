@@ -88,6 +88,9 @@ export const updateOrder = async (req:Request, res:Response, next:NextFunction) 
         if(order.orderStatus === 'Delivered'){
             return next(new AppError("Order already delivered", 400))
         }
+        if(order.orderStatus === 'Cancelled'){
+            return next(new AppError("Order already cancelled", 400))
+        }
         
         order.orderItems.forEach(async(item) => {
             const product = await Product.findById(item.productId);
@@ -101,6 +104,11 @@ export const updateOrder = async (req:Request, res:Response, next:NextFunction) 
         if(req.body.paymentStatus){
             order.paymentStatus = updateOrderInputPayload.paymentStatus
         }
+
+        if(req.body.orderRemarks){
+            order.orderRemarks = updateOrderInputPayload.orderRemarks
+        }
+
         if(updateOrderInputPayload.orderStatus === 'Delivered'){
             order.deliverdAt = new Date(Date.now());
         }

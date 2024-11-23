@@ -23,6 +23,7 @@ export type TypeNewProductInputPayload = {
     description:string;
     images:[string],
     category:string;
+    subCategory:string;
     price:number;
     stock:number;
     isFeatured:boolean;
@@ -51,6 +52,7 @@ export type TypeProductQuery = {
 
 export type TypeUpdateOrder = {
     orderId:string;
-    orderStatus:"Processing"|"Shipped"|"Delivered";
+    orderStatus:"Processing"|"Shipped"|"Delivered"|"Cancelled";
     paymentStatus:"pending"|"paid";
+    orderRemarks:string;
 }

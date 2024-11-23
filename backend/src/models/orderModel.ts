@@ -26,7 +26,8 @@ export type TypeOrder = {
     totalAmount:number;
     paymentMethod:"COD"|"Card";
     paymentStatus:"pending"|"paid";
-    orderStatus:"Processing"|"Shipped"|"Delivered";
+    orderStatus:"Processing"|"Shipped"|"Delivered"|"Cancelled";
+    orderRemarks:string;
     deliverdAt:Date;
 }
 
@@ -109,8 +110,11 @@ const orderSchema = new mongoose.Schema({
     },
     orderStatus:{
         type:String,
-        enum:["Processing","Shipped","Delivered"],
+        enum:["Processing","Shipped","Delivered","Cancelled"],
         default:"Processing"
+    },
+    orderRemarks:{
+        type:String,
     },
     deliverdAt:{
         type:Date,
