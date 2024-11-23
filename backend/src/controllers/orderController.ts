@@ -14,17 +14,45 @@ export const createOrderByCOD = async (req:Request, res:Response, next:NextFunct
         if(createOrderInputPayload.orderItems.length < 1){
             return next(new AppError("Please Provide Order Item", 400))
         }
-        if(!createOrderInputPayload.itemsPrice || !createOrderInputPayload.totalAmount){
-            return next(new AppError("Please Provide Items And Total Price", 400))
-        }
+        // if(!createOrderInputPayload.itemsPrice || !createOrderInputPayload.totalAmount){
+        //     return next(new AppError("Please Provide Items And Total Price", 400))
+        // }
 
         if(createOrderInputPayload.paymentMethod !== 'COD'){
             return next(new AppError("Selecting Wrong Payment Method", 400))
         }
-        createOrderInputPayload.paymentStatus = "pending"
+
+
+        for (let i = 0; i < createOrderInputPayload.orderItems.length; i++) {
+            const product = await Product.findById(createOrderInputPayload.orderItems[i].productId);
+            
+            if(!product){
+                return next(new AppError("Product not found", 404))
+            } 
+            if(product.stock < createOrderInputPayload.orderItems[i].quantity){
+                return next(new AppError("Stock not available", 400))
+            }
+            product.stock = product.stock - createOrderInputPayload.orderItems[i].quantity
+            await product.save();
+            
+        }
+
+
+
+        const itemsPrice:number = createOrderInputPayload.orderItems.reduce((accumulator, item) => (
+            accumulator + item.price * item.quantity
+        ),0)
+
+        const shippingPrice = itemsPrice > 2000 ? 0 : 25;
+        const totalAmount = Number((itemsPrice + shippingPrice).toFixed(2));
+
+        createOrderInputPayload.shippingAmount = shippingPrice;
+        createOrderInputPayload.totalAmount = totalAmount  
+        createOrderInputPayload.itemsPrice = itemsPrice;
+        createOrderInputPayload.paymentStatus = "pending";
         createOrderInputPayload.userId = req.userId;
         await Order.create(createOrderInputPayload);
-        return res.status(201).json({message:"Order Created Successfully"})
+        return res.status(201).json({message:"Order Created Successfully"});
 
     } catch (error) {
         return next(error);
@@ -92,15 +120,6 @@ export const updateOrder = async (req:Request, res:Response, next:NextFunction) 
             return next(new AppError("Order already cancelled", 400))
         }
         
-        order.orderItems.forEach(async(item) => {
-            const product = await Product.findById(item.productId);
-            if(!product){
-                return next(new AppError("Product not found", 404))
-            } 
-            product.stock = product.stock - item.quantity
-            await product.save();
-        });
-
         if(req.body.paymentStatus){
             order.paymentStatus = updateOrderInputPayload.paymentStatus
         }
