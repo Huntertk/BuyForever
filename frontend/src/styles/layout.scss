@@ -1,0 +1,7 @@
+@use './variable.scss' as *;
+
+main{
+    max-width: $maxWidth;
+    margin: 1rem auto;
+    padding: 1rem;
+}
