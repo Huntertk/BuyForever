@@ -17,7 +17,7 @@ const Header = () => {
               <div className="cart_icon">
                 <IoCartOutline />
               </div>
-              <span>0</span>
+              <span>1</span>
             </div>
             <div className="action_btn_container">
               <div className="dropdown_container">
