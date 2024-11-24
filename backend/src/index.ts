@@ -7,6 +7,7 @@ import authRouter from './routes/authRoutes';
 import userRouter from './routes/userRoutes';
 import productRouter from './routes/productRoutes';
 import orderRouter from './routes/orderRoutes';
+import path from 'path';
 
 
 //Express App Initialization
@@ -21,6 +22,9 @@ app.use(cookieParser());
 app.get('/health', (req:Request, res:Response) => {
     return res.status(200).json({messgage:"Server is running"})
 })
+
+//serving static file
+app.use('/assets/images', expres.static(path.join(__dirname,"..", "public", "images")))
 
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);

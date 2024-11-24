@@ -1,8 +1,9 @@
-import { FaChevronDown, FaUserCircle } from "react-icons/fa";
+import { FaUserCircle } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import '../styles/header.scss';
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { MdOutlineSegment} from "react-icons/md";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -10,7 +11,7 @@ const Header = () => {
     <header>
         <div className="header_main_container">
           <div className="logo_container">
-            <h3>ForeverBuy</h3>
+            <h3>GLAMORA</h3>
           </div>
           <div className="action_btn_main_container">
             <div className="cart_container">
@@ -25,12 +26,14 @@ const Header = () => {
                   <FaUserCircle />  
                   <span>Taufik  </span>
                 </Link>
-                  <FaChevronDown onClick={() => setIsDropdownOpen((prev) => !prev)} />
+                  <MdOutlineSegment className="sidebar_icon" onClick={() => setIsDropdownOpen((prev) => !prev)} />
                   {
                     isDropdownOpen && (
                       <div className="dropdown_popout_container">
-                        <Link to="/profile">Profile</Link>
-                        <Link to="/orders">Orders</Link>
+                        <NavLink to="/collection">Collections</NavLink>
+                        <NavLink to="/about">About</NavLink>
+                        <NavLink to="/profile">Profile</NavLink>
+                        <NavLink to="/orders">Orders</NavLink>
                         <p>Logout</p>
                       </div>
                     )
