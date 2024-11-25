@@ -8,6 +8,12 @@
         font-size: 2rem;
         color: $primaryColor;
     }
+
+    > p{
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 1.2rem;
+    }
     > .featured_card_wrapper{
         display: grid;
         grid-template-columns: 1fr;

@@ -7,12 +7,13 @@ export const productApi = createApi({
         baseUrl:"/api/v1"
     }),
     endpoints:(builder) => ({
-        getFeaturedProduct: builder.query<{products:TypeProduct[]}, {featured:boolean}>({
+        getProductByParams: builder.query<{products:TypeProduct[]}, {featured:boolean|undefined, category:string|undefined}>({
             query:(params) => {
                 return {
                     url:"/product",
                     params:{
-                        featured:params.featured
+                        featured:params.featured,
+                        category:params.category
                     }
                 }
             }
@@ -20,4 +21,4 @@ export const productApi = createApi({
     })
 })
 
-export const {useGetFeaturedProductQuery} = productApi
+export const {useGetProductByParamsQuery} = productApi
