@@ -22,7 +22,7 @@
     }
 }
 
-@media screen and (min-width: 767px) {
+@media screen and (min-width: 1024px) {
     .featured_container{
         > .featured_card_wrapper{
             grid-template-columns: repeat(3,1fr);
