@@ -1,0 +1,31 @@
+@use './variable.scss' as *;
+
+.featured_container{
+    padding: 1rem;
+    > h1 {
+        margin: 1rem;
+        text-align: center;
+        font-size: 2rem;
+    }
+    > .featured_card_wrapper{
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }   
+}
+
+@media screen and (min-width: 500px) {
+    .featured_container{
+        > .featured_card_wrapper{
+            grid-template-columns: repeat(2,1fr);
+        }
+    }
+}
+
+@media screen and (min-width: 767px) {
+    .featured_container{
+        > .featured_card_wrapper{
+            grid-template-columns: repeat(3,1fr);
+        }
+    }
+}
