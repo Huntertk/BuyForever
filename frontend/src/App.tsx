@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom"
 const Layout = lazy(() => import('./components/Layout'))
 const Loader = lazy(() => import('./components/Loader'))
 const Home = lazy(() => import('./pages/Home'))
+const Collection = lazy(() => import('./pages/Collection'))
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />}/>
+            <Route path="/collection" element={<Collection />}/>
           </Route>
         </Routes>
       </Suspense>

@@ -1,0 +1,62 @@
+@use './variable.scss' as *;
+
+.category_filter_main_container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    > .filter_top_container{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        > h1 {
+            font-size: 1.42rem;
+        }
+        > .filter_top_button_container{
+            
+            > button {
+                cursor: pointer;
+                margin-left: 10px;
+                background: transparent;
+                border: none;
+                color: $primaryColor;
+                transition: all 0.3s ease;
+                &:hover{
+                    transform: scale(1.05);
+                }
+                &:disabled{
+                    cursor: not-allowed;
+                }
+                &:nth-child(2){
+                    color: #ff0000;
+                }
+            }
+        }
+    }
+
+    > .category_filter_container{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+        border: 1px solid $primaryColor;
+        border-radius: 14px;
+        padding: 10px;
+
+        > p {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        > label{
+            display: flex;
+            align-items: center;
+            justify-content:  flex-start;
+            gap: 5px;
+
+            > span{
+                font-size: 0.9rem;
+                text-transform: capitalize;
+            }
+        }
+    }
+}

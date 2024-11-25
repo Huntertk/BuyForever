@@ -2,17 +2,21 @@ import { FaUserCircle } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import '../styles/header.scss';
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineSegment} from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
+  const navigate = useNavigate()
   return (
     <header>
         <div className="header_main_container">
           <div className="logo_container">
-            <h3>GLAMORA</h3>
+            <h3 onClick={() => {
+              navigate("/")
+              setIsDropdownOpen(false)
+            }}>GLAMORA</h3>
           </div>
           <div className="action_btn_main_container">
             <div className="cart_container">
@@ -34,10 +38,10 @@ const Header = () => {
                   {
                     isDropdownOpen && (
                       <div className="dropdown_popout_container">
-                        <NavLink to="/collection">Collections</NavLink>
-                        <NavLink to="/about">About</NavLink>
-                        <NavLink to="/profile">Profile</NavLink>
-                        <NavLink to="/orders">Orders</NavLink>
+                        <NavLink to="/collection" onClick={() => setIsDropdownOpen(false)}>Collections</NavLink>
+                        <NavLink to="/about" onClick={() => setIsDropdownOpen(false)}>About</NavLink>
+                        <NavLink to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</NavLink>
+                        <NavLink to="/orders" onClick={() => setIsDropdownOpen(false)}>Orders</NavLink>
                         <p>Logout</p>
                       </div>
                     )
