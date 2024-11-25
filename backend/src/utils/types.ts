@@ -19,6 +19,7 @@ export type TypeUpdateMyPasswordInputPayload = {
 }
 
 export type TypeNewProductInputPayload = {
+    uniqueId:string;
     title:string;
     description:string;
     images:[string],

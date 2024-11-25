@@ -2,10 +2,13 @@ import { NextFunction, Request, Response } from "express";
 import Product from "../models/productModel";
 import type { TypeBaseQuery, TypeNewProductInputPayload, TypeProductQuery } from "../utils/types";
 import AppError from "../error/customError";
+import crypto from 'crypto';
 
 export const createNewProduct = async(req:Request, res:Response, next:NextFunction) => {
     try {
-        const productInputPayload:TypeNewProductInputPayload = req.body
+        const productInputPayload:TypeNewProductInputPayload = req.body;
+        const uniqueId = crypto.randomUUID();
+        productInputPayload.uniqueId = uniqueId;
         await Product.create(productInputPayload);
         return res.status(201).json({message:"Product is created"})
     } catch (error) {
@@ -84,7 +87,7 @@ export const getProducts = async(req:Request, res:Response, next:NextFunction) =
 
 export const getProduct = async(req:Request, res:Response, next:NextFunction) => {
     try {
-       const product = await Product.findById(req.params.id);
+       const product = await Product.findOne({uniqueId: req.params.id});
        if(!product){
         return next(new AppError("Product not found", 404))
        }

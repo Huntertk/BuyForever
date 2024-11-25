@@ -10,9 +10,14 @@ type TypeProduct = {
     price:number;
     stock:number;
     isFeatured:boolean;
+    uniqueId:string;
 }
 
 const productSchema = new mongoose.Schema({
+  uniqueId:{
+    type:String,
+    required: true
+  },
   title:{
     type:String,
     required: true

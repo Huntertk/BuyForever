@@ -8,4 +8,5 @@ export type TypeProduct = {
     price:number;
     stock:number;
     isFeatured:boolean;
+    uniqueId:string;
 }
