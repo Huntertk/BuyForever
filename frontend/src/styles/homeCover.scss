@@ -4,17 +4,18 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: flex-end;
     width: 100%;
     height: 500px;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    background-image: url('/assets/images/homeCover.jpg');
+    background-image: url('/assets/images/homeCover.avif');
     border-radius: 27px;
     padding: 2rem;
 
     > h1 {
+        text-align: end;
         font-size: 2.5rem;
         color: #fff;
         text-transform: uppercase;
