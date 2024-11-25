@@ -4,6 +4,7 @@ import '../styles/header.scss';
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { MdOutlineSegment} from "react-icons/md";
+import { RxCross2 } from "react-icons/rx";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
@@ -26,7 +27,10 @@ const Header = () => {
                   <FaUserCircle />  
                   <span>Taufik  </span>
                 </Link>
-                  <MdOutlineSegment className="sidebar_icon" onClick={() => setIsDropdownOpen((prev) => !prev)} />
+                {
+                  isDropdownOpen ? <RxCross2 className="sidebar_icon" onClick={() => setIsDropdownOpen(false)} /> : <MdOutlineSegment className="sidebar_icon" onClick={() => setIsDropdownOpen(true)} />
+
+                }
                   {
                     isDropdownOpen && (
                       <div className="dropdown_popout_container">

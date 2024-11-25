@@ -3,6 +3,7 @@ import '../styles/featuredCardContainer.scss';
 import { TypeProduct } from "../redux/typs";
 
 const FeaturedCardContainer = ({data, title, paragraph}:{data:TypeProduct[]|undefined, title:string, paragraph:string}) => {
+
   return (
     <div className="featured_container">
         <h1>{title}</h1>
