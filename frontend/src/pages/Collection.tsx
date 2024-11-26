@@ -14,7 +14,7 @@ const Collection = () => {
   const [sortby, setSortby] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const searchRef = useRef<HTMLInputElement>(null);
-  const categoryFilterList = ["men", "women", "kid"];
+  const categoryFilterList = ["men", "women", "kids"];
   const subCategoryFilterList = ["topwear", "bottomwear", "winterwear"];
   
   
