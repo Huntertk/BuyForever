@@ -15,7 +15,8 @@ export const productApi = createApi({
                         featured:params.featured,
                         category:params.category,
                         subcategory:params.subCategory,
-                        search:params.search
+                        search:params.search,
+                        sortby:params.sortby
                     }
                 }
             }

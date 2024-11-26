@@ -14,6 +14,7 @@ export type TypeProduct = {
 export type TypeFilterProduct = {
     featured:boolean|undefined;
     category:string|undefined;
-    subCategory:string|undefined
-    search:string|undefined
+    subCategory:string|undefined;
+    search:string|undefined;
+    sortby:string|undefined;
 }

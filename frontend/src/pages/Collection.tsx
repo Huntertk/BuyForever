@@ -10,12 +10,13 @@ const Collection = () => {
   const [category, setCategory] = useState<string>("");
   const [subCategory, setSubCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
+  const [sortby, setSortby] = useState<string>("");
   const searchRef = useRef<HTMLInputElement>(null);
   const categoryFilterList = ["men", "women", "kid"];
   const subCategoryFilterList = ["topwear", "bottomwear", "winterwear"];
   
   
-  const {data:filteredProductData, isLoading:filteredProductLoading} = useGetProductByParamsQuery({featured:undefined,category,subCategory, search});
+  const {data:filteredProductData, isLoading:filteredProductLoading} = useGetProductByParamsQuery({featured:undefined,category,subCategory, search, sortby});
 
   
     const handleClickCategory = (categoryVal:string) => {
@@ -36,12 +37,12 @@ const Collection = () => {
       e.preventDefault();
       if (searchRef.current) { 
         setSearch(searchRef.current.value)
-      };
+      }
     }
 
     useEffect(() => {
-
-    },[category, subCategory, search])
+      
+    },[category, subCategory, search, sortby])
 
 
     if(filteredProductLoading){
@@ -75,10 +76,14 @@ const Collection = () => {
               <button type="submit"><FiSearch /></button>
             </form>
             <div className="sort_container">
-              <select name="sortby">
+              <select
+              name="sortby"
+              value={sortby}
+              onChange={(e:React.ChangeEvent<HTMLSelectElement>) => setSortby(e.target.value)}
+              >
                 <option value="">Relevant</option>
-                <option value="-price">Low to High</option>
-                <option value="+price">High to Low</option>
+                <option value="price">Price Low to High</option>
+                <option value="-price">Price High to Low</option>
               </select>
             </div>
 

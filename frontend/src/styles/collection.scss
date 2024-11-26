@@ -36,6 +36,13 @@
                 }
 
             }
+            > .sort_container{
+                > select{
+                    padding: 10px;
+                    font-size: 1rem;
+                    border-radius: 14px;
+                }
+            }
         }
        > .collection_page_product_container{
             display: flex;
