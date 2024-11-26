@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import expres, {Request, Response} from 'express';
+import express, {Request, Response} from 'express';
 import errorHandler  from './middleware/errorMiddleware';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
@@ -11,11 +11,11 @@ import path from 'path';
 
 
 //Express App Initialization
-const app = expres();
+const app = express();
 const PORT = process.env.PORT || 4000;
 
 //Middleware
-app.use(expres.json());
+app.use(express.json());
 app.use(cookieParser());
 
 //Routes
@@ -24,12 +24,23 @@ app.get('/health', (req:Request, res:Response) => {
 })
 
 //serving static file
-app.use('/assets/images', expres.static(path.join(__dirname,"..", "public", "images")))
+app.use('/assets/images', express.static(path.join(__dirname,"..", "public", "images")))
 
+
+//Serving Frontend Statically
+app.use(express.static(path.join(__dirname, "..", "..", "frontend", "dist")))
+
+
+//Api Routes
 app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/users', userRouter);
 app.use('/api/v1/product', productRouter);
 app.use('/api/v1/order', orderRouter);
+
+//Sending Frontend
+app.get('*', (req:Request, res:Response) => {
+    res.sendFile(path.join(__dirname, "..", "..", "frontend", "dist", "index.html"))
+})
 
 //Global Error Handler
 app.use(errorHandler);
