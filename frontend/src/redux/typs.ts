@@ -17,4 +17,5 @@ export type TypeFilterProduct = {
     subCategory:string|undefined;
     search:string|undefined;
     sortby:string|undefined;
+    page:number;
 }

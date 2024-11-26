@@ -5,18 +5,20 @@ import ProductCard from "../components/ProductCard";
 import Loader from "../components/Loader";
 import '../styles/collection.scss';
 import { FiSearch } from "react-icons/fi";
+import Pagination from "../components/Pagination";
 
 const Collection = () => {
   const [category, setCategory] = useState<string>("");
   const [subCategory, setSubCategory] = useState<string>("");
   const [search, setSearch] = useState<string>("");
   const [sortby, setSortby] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
   const searchRef = useRef<HTMLInputElement>(null);
   const categoryFilterList = ["men", "women", "kid"];
   const subCategoryFilterList = ["topwear", "bottomwear", "winterwear"];
   
   
-  const {data:filteredProductData, isLoading:filteredProductLoading} = useGetProductByParamsQuery({featured:undefined,category,subCategory, search, sortby});
+  const {data:filteredProductData, isLoading:filteredProductLoading} = useGetProductByParamsQuery({featured:undefined,category,subCategory, search, sortby, page});
 
   
     const handleClickCategory = (categoryVal:string) => {
@@ -25,6 +27,10 @@ const Collection = () => {
   
     const handleClickSubCategory = (subCategoryVal:string) => {
       setSubCategory((prev) => prev === subCategoryVal ? "" : subCategoryVal)
+    }
+
+    const handleChangePage = (pageVal:number) => {
+      setPage(pageVal)
     }
 
     
@@ -96,6 +102,17 @@ const Collection = () => {
                 )) : <h1>No Product Found</h1>
               }
             </div>
+            {
+              filteredProductData &&(
+                <div className="collection_pagination_container">
+                  <Pagination
+                  handleChangePage={handleChangePage}
+                  totalPage={filteredProductData.totalPage}
+                  currentPage={page}
+                  />
+                </div>
+              )
+            }
         </div>
     </div>
   )

@@ -7,7 +7,7 @@ export const productApi = createApi({
         baseUrl:"/api/v1"
     }),
     endpoints:(builder) => ({
-        getProductByParams: builder.query<{products:TypeProduct[]}, TypeFilterProduct>({
+        getProductByParams: builder.query<{products:TypeProduct[],totalPage:number}, TypeFilterProduct>({
             query:(params) => {
                 return {
                     url:"/product",
@@ -16,7 +16,8 @@ export const productApi = createApi({
                         category:params.category,
                         subcategory:params.subCategory,
                         search:params.search,
-                        sortby:params.sortby
+                        sortby:params.sortby,
+                        page:params.page
                     }
                 }
             }
