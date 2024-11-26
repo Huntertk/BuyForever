@@ -4,9 +4,9 @@ import Loader from "../components/Loader"
 import { useGetProductByParamsQuery } from "../redux/api/productApi"
 
 const Home = () => {
-  const {data:featuredProductData, isLoading:featuredProductLoading} = useGetProductByParamsQuery({featured: true, category:"", subCategory:""});
+  const {data:featuredProductData, isLoading:featuredProductLoading} = useGetProductByParamsQuery({featured: true, category:"",subCategory:"", search:"", sortby:"", page:1});
 
-  const {data:menCategoryProductData, isLoading:menCategoryProductLoading} = useGetProductByParamsQuery({featured: undefined, category:"men", subCategory:""})
+  const {data:menCategoryProductData, isLoading:menCategoryProductLoading} = useGetProductByParamsQuery({featured: undefined, category:"men", subCategory:"",search:"", sortby:"", page:1})
 
   
   return (
