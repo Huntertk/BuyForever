@@ -10,3 +10,10 @@ export type TypeProduct = {
     isFeatured:boolean;
     uniqueId:string;
 }
+
+export type TypeFilterProduct = {
+    featured:boolean|undefined;
+    category:string|undefined;
+    subCategory:string|undefined
+    search:string|undefined
+}

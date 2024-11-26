@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import { type TypeProduct } from '../typs';
+import { type TypeFilterProduct, type TypeProduct } from '../typs';
 
 export const productApi = createApi({
     reducerPath:"productApi",
@@ -7,14 +7,15 @@ export const productApi = createApi({
         baseUrl:"/api/v1"
     }),
     endpoints:(builder) => ({
-        getProductByParams: builder.query<{products:TypeProduct[]}, {featured:boolean|undefined, category:string|undefined, subCategory:string|undefined}>({
+        getProductByParams: builder.query<{products:TypeProduct[]}, TypeFilterProduct>({
             query:(params) => {
                 return {
                     url:"/product",
                     params:{
                         featured:params.featured,
                         category:params.category,
-                        subcategory:params.subCategory
+                        subcategory:params.subCategory,
+                        search:params.search
                     }
                 }
             }

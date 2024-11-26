@@ -29,11 +29,14 @@ const FilterComponent = ({
       <div className="filter_top_container">
           <h1>Filters</h1>
           <div className='filter_top_button_container'>
-            <button onClick={handleClearFilter} disabled={filteredProductLoading}>{ filteredProductLoading ? "Applying...." : "Clear Filters"}</button>
+            {
+              (category || subCategory) && <button onClick={handleClearFilter} disabled={filteredProductLoading}>{ filteredProductLoading ? "Applying...." : "Clear Filters"}</button>
+
+            }
           </div>
       </div>
         <div className="category_filter_container">
-            <p>Category</p>
+            <p>Categories</p>
             {
               categoryFilterList.map((item, index) => (
                 <label key={index}>
@@ -49,7 +52,7 @@ const FilterComponent = ({
         </div>
 
         <div className="category_filter_container">
-            <p>Sub Category</p>
+            <p>Type</p>
             {
               subCategoryFilterList.map((item, index) => (
                 <label key={index}>
