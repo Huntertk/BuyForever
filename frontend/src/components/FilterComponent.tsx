@@ -4,7 +4,8 @@ type TypeFilterComponentProps = {
   category:string;
   categoryFilterList:string[];
   handleClickCategory:(categoryVal:string) => void;
-
+  search:string;
+  sortby:string;
   subCategory:string;
   subCategoryFilterList:string[];
   handleClickSubCategory:(subCategoryVal:string) => void;
@@ -20,7 +21,9 @@ const FilterComponent = ({
   subCategory,
   subCategoryFilterList,
   handleClearFilter,
-  filteredProductLoading
+  filteredProductLoading,
+  sortby,
+  search
 }:TypeFilterComponentProps) => {
 
   
@@ -30,7 +33,7 @@ const FilterComponent = ({
           <h1>Filters</h1>
           <div className='filter_top_button_container'>
             {
-              (category || subCategory) && <button onClick={handleClearFilter} disabled={filteredProductLoading}>{ filteredProductLoading ? "Applying...." : "Clear Filters"}</button>
+              (category || subCategory || search || sortby) && <button onClick={handleClearFilter} disabled={filteredProductLoading}>{ filteredProductLoading ? "Applying...." : "Clear Filters"}</button>
 
             }
           </div>

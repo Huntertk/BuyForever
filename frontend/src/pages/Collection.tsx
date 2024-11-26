@@ -37,12 +37,16 @@ const Collection = () => {
     const handleClearFilter = () => {
       setCategory("")
       setSubCategory("")
+      setSearch("")
+      setSortby("")
+      setPage(1)
     }
 
     const handleSearch = (e:React.ChangeEvent<HTMLFormElement>) => {
       e.preventDefault();
       if (searchRef.current) { 
         setSearch(searchRef.current.value)
+        setPage(1)
       }
     }
 
@@ -69,6 +73,8 @@ const Collection = () => {
             handleClickSubCategory={handleClickSubCategory}
             handleClearFilter={handleClearFilter}
             filteredProductLoading={filteredProductLoading}
+            search={search}
+            sortby={sortby}
             />
         </div>
         <div className="collection_page_collection_container">
