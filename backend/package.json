@@ -7,7 +7,8 @@
     "start": "node ./dist/index.js",
     "dev": "nodemon ./src/index.ts",
     "seed": "nodemon ./src/seeder/seeder.ts",
-    "build": "npm install && npx tsc"
+    "build": "npm install && npx tsc",
+    "build-prod":"cd .. && cd frontend && npm install && npm run build && cd .. && cd backend && npm run build"
   },
   "keywords": [],
   "author": "",
