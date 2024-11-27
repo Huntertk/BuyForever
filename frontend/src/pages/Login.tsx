@@ -1,14 +1,16 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import '../styles/loginAndSignup.scss';
 import React, { useEffect, useState } from 'react';
 import { VscLoading } from "react-icons/vsc";
-import { useLoginMutation } from '../redux/api/authApi';
+import { useGetMeDataQuery, useLoginMutation } from '../redux/api/authApi';
 import { toast } from 'react-hot-toast';
+import Loader from '../components/Loader';
 
 const Login = () => {
+    const {isLoading:getMeLoading, data:getMeData} = useGetMeDataQuery({});
     const navigate = useNavigate();
-    const [login, {error, isLoading, data}] = useLoginMutation()
-    const [formData, setFormData] = useState<{email:string; password:string}>({
+    const [login, {error, isLoading, data}] = useLoginMutation();
+    const [formData, setFormData] = useState<{email:string; password:string;}>({
         email:"",
         password:""
     })
@@ -23,16 +25,17 @@ const Login = () => {
     const handleFormSubmit = (event:React.ChangeEvent<HTMLFormElement>) => {
         event.preventDefault();
         if(!formData.email || !formData.password){
-            return
+            return toast.error("Please provide all values")
         }
 
         login({email:formData.email, password:formData.password})
     }
 
     useEffect(() => {
-        if(data){
+        if(data || getMeData){
             navigate("/")
         }
+
         if(error){
             if(error){
                 if ('data' in error) {
@@ -41,7 +44,11 @@ const Login = () => {
               }
         }
 
-    }, [error, data])
+    }, [error, data, getMeData]);
+
+    if(getMeLoading){
+        return <Loader />
+    }
 
   return (
     <div className="login_signup_page_main_container">
@@ -58,7 +65,7 @@ const Login = () => {
                 onChange={handleFormDataChange}
                 required
                 />
-                <label htmlFor="email">Password <span>*</span></label>
+                <label htmlFor="password">Password <span>*</span></label>
                 <input
                 type="password"
                 name="password"

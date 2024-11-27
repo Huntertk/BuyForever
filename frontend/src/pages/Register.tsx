@@ -1,13 +1,15 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { Link,useNavigate } from 'react-router-dom';
 import '../styles/loginAndSignup.scss';
 import React, { useEffect, useState } from 'react';
 import { VscLoading } from "react-icons/vsc";
-import { useRegisterMutation } from '../redux/api/authApi';
+import { useGetMeDataQuery, useRegisterMutation } from '../redux/api/authApi';
 import { toast } from 'react-hot-toast';
+import Loader from '../components/Loader';
 
 const Register = () => {
+    const {isLoading:getMeLoading, data:getMeData} = useGetMeDataQuery({});
     const navigate = useNavigate();
-    const [register, {error, isLoading, data}] = useRegisterMutation()
+    const [register, {error, isLoading, data}] = useRegisterMutation();
     const [formData, setFormData] = useState<{email:string; password:string; confirmPassword:string; name:string}>({
         email:"",
         password:"",
@@ -35,9 +37,10 @@ const Register = () => {
     }
 
     useEffect(() => {
-        if(data){
+        if(data || getMeData){
             navigate("/")
         }
+
         if(error){
             if(error){
                 if ('data' in error) {
@@ -46,7 +49,11 @@ const Register = () => {
               }
         }
 
-    }, [error, data])
+    }, [error, data, getMeData]);
+
+    if(getMeLoading){
+        return <Loader />
+    }
 
   return (
     <div className="login_signup_page_main_container">
@@ -94,7 +101,7 @@ const Register = () => {
                 required
                 />
                 <button disabled={isLoading}>{isLoading ? <VscLoading className='loading' /> : "Register"}</button>
-                <span>Aleready have an account ? <Link to="/login">Login here</Link></span>
+                <span>Already have an account ? <Link to="/login">Login here</Link></span>
             </form>
         </div>
         <div className="login_signup_img_container">
