@@ -35,9 +35,9 @@ const Collection = () => {
 
     
     const handleClearFilter = () => {
+      setSearch("")
       setCategory("")
       setSubCategory("")
-      setSearch("")
       setSortby("")
       setPage(1)
     }
@@ -46,6 +46,9 @@ const Collection = () => {
       e.preventDefault();
       if (searchRef.current) { 
         setSearch(searchRef.current.value)
+        setCategory("")
+        setSubCategory("")
+        setSortby("")
         setPage(1)
       }
     }
