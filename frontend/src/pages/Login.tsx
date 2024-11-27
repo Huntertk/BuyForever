@@ -19,8 +19,8 @@ const Login = () => {
   return (
     <div className="login_signup_page_main_container">
         <div className="login_signup_form_container">
-            <h1>Welcome Back!</h1>
             <form>
+            <h1>Welcome Back!</h1>
                 <label htmlFor="email">Email <span>*</span></label>
                 <input
                 type="email"
