@@ -19,3 +19,11 @@ export type TypeFilterProduct = {
     sortby:string|undefined;
     page:number;
 }
+
+export type TypeUser = {
+    _id:string;
+    name:string;
+    email:string;
+    password:string;
+    role:string,
+}
