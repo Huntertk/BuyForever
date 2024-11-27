@@ -107,7 +107,7 @@ header{
                     border-radius: 14px;
                     width: 150px;
                     text-align: center;
-                    a{
+                    > a{
                         transition: all 0.3s linear;
                         display: block;
                         margin: 10px;
@@ -115,6 +115,22 @@ header{
                             font-weight: 600;
                             transform: scale(1.1);
                         }
+                    }
+                    > button {
+                        background: transparent;
+                        color: #fff;
+                        border: none;
+                        transition: all 0.3s linear;
+                        font-size: 1rem;
+                        &:hover{
+                            cursor: pointer;
+                            transform: scale(1.1);
+                        }
+
+                        &:disabled{
+                            cursor: not-allowed;
+                            opacity: 0.7;
+                        }   
                     }
                 }
                 .active{ 

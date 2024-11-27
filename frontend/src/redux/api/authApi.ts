@@ -7,11 +7,10 @@ import { TypeUser } from '../typs';
 export const authApi = createApi({
     reducerPath:"authApi",
     baseQuery:fetchBaseQuery({
-        baseUrl:"/api/v1/admin"
+        baseUrl:"/api/v1"
     }),
-    tagTypes:["validateUser"],
     endpoints:(builder) => ({
-        login:builder.mutation<{message:string}, {email:string, password:string}>({
+        login:builder.mutation<{email:string,name:string, password:string, role:string, _id:string}, {email:string, password:string}>({
             query:(body) => {
                 return {
                     url:"/auth/login",
@@ -19,21 +18,27 @@ export const authApi = createApi({
                     body
                 }
             },
-            invalidatesTags:["validateUser"]
+            async onQueryStarted ({}, {dispatch, queryFulfilled}) {
+                try {
+                    const {data} = await queryFulfilled
+                    dispatch(userLoginSuccess({email:data.email,name:data.name, role:data.role, isAuthenticated:true}))
+                } catch (error) {
+                    dispatch(userLoginSuccess({email:null,name:null, role:null, isAuthenticated:false}))
+                }
+            }
         }),
         getMeData: builder.query<TypeUser, {}>({
             query:() => '/users/me',
             async onQueryStarted ({}, {dispatch, queryFulfilled}) {
                 try {
                     const {data} = await queryFulfilled
-                    dispatch(userLoginSuccess({email:data.email,name:data.name, role:data.role}))
+                    dispatch(userLoginSuccess({email:data.email,name:data.name, role:data.role, isAuthenticated:true}))
                 } catch (error) {
-                    dispatch(userLoginSuccess({email:null,name:null, role:null}))
+                    dispatch(userLoginSuccess({email:null,name:null, role:null, isAuthenticated:false}))
                 }
-            },
-            providesTags:["validateUser"]
+            }
         }),
-        logoutAdmin:builder.query({
+        logout:builder.query({
             query:() => {
                 return {
                     url:"/auth/logout",
@@ -43,4 +48,4 @@ export const authApi = createApi({
     })
 })
 
-export const {useLoginMutation, useGetMeDataQuery, useLazyLogoutAdminQuery} = authApi
+export const {useLoginMutation, useGetMeDataQuery, useLazyLogoutQuery} = authApi

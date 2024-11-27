@@ -1,6 +1,6 @@
 import { lazy, Suspense } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-
+import { Toaster } from 'react-hot-toast'
 const Layout = lazy(() => import('./components/Layout'))
 const Loader = lazy(() => import('./components/Loader'))
 const Home = lazy(() => import('./pages/Home'))
@@ -11,6 +11,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
+      <Toaster  position="top-right" />
         <Routes>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />}/>

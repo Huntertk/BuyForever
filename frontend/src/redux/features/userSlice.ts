@@ -7,6 +7,7 @@ type TypeUserState = {
     email:string|null;
     name:string|null;
     role:string|null;
+    isAuthenticated:boolean;
 
 }
 
@@ -15,6 +16,7 @@ const initialState: TypeUserState = {
     email:null,
     name:null,
     role:null,
+    isAuthenticated:false
 }
 
 
@@ -28,10 +30,12 @@ export const userSlice = createSlice({
             email:string|null;
             name:string|null;
             role:string|null;
+            isAuthenticated:boolean;
         }>) => {
             state.email = action.payload.email,
             state.name = action.payload.name,
-            state.role = action.payload.role
+            state.role = action.payload.role,
+            state.isAuthenticated = action.payload.isAuthenticated
         }
     }
 })

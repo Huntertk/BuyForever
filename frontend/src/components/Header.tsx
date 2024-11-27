@@ -1,15 +1,32 @@
 import { FaUserCircle } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import '../styles/header.scss';
-import { useState } from "react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link,NavLink, useNavigate } from "react-router-dom";
 import { MdOutlineSegment} from "react-icons/md";
 import { RxCross2 } from "react-icons/rx";
+import { useGetMeDataQuery, useLazyLogoutQuery } from "../redux/api/authApi";
+import Loader from "./Loader";
+import { useAppSelector } from "../redux/hooks";
 
 const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const navigate = useNavigate();
-  const isAuthenticaed:boolean = false;
+  const [logout, {data:logoutData, isLoading:logoutLoading}] = useLazyLogoutQuery()
+  const {data, isLoading} = useGetMeDataQuery({})
+  const {isAuthenticated, name} = useAppSelector((state) => state.user)
+  
+  
+  useEffect(() => {
+    if(logoutData){
+      navigate(0)
+    }
+
+  }, [logoutData, data])
+
+  if(isLoading){
+    return <Loader />
+  }
 
   return (
     <header>
@@ -22,7 +39,7 @@ const Header = () => {
           </div>
           <div className="action_btn_main_container">
             {
-              isAuthenticaed && (
+              isAuthenticated && (
                 <div className="cart_container">
                   <div className="cart_icon">
                     <IoCartOutline />
@@ -32,7 +49,7 @@ const Header = () => {
               ) 
             }
             {
-              !isAuthenticaed && (
+              !isAuthenticated && (
                 <div className="login_btn_container">
                   <button onClick={() => navigate('/login')}>Login</button>
                 </div>
@@ -41,10 +58,10 @@ const Header = () => {
             <div className="action_btn_container">
               <div className="dropdown_container">
                 {
-                  isAuthenticaed && (
+                  isAuthenticated && (
                     <Link to="/profile" className="profile_icon">
                       <FaUserCircle />  
-                      <span>Taufik  </span>
+                      <span>{name}</span>
                     </Link>
                   ) 
                 }
@@ -61,11 +78,11 @@ const Header = () => {
                         <NavLink to="/collection" onClick={() => setIsDropdownOpen(false)}>Collections</NavLink>
                         <NavLink to="/about" onClick={() => setIsDropdownOpen(false)}>About</NavLink>
                         {
-                          isAuthenticaed && (
+                          isAuthenticated && (
                             <>
                               <NavLink to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</NavLink>
                               <NavLink to="/orders" onClick={() => setIsDropdownOpen(false)}>Orders</NavLink>
-                              <p>Logout</p>
+                              <button disabled={logoutLoading} onClick={() => logout({})}>Logout</button>
                             </>
                           )
                         }

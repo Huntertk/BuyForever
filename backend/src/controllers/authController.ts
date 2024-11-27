@@ -48,7 +48,7 @@ export const login = async (req:Request, res:Response, next:NextFunction) => {
             secure: process.env.NODE_ENV === 'production',
             maxAge:1000*60*60*24*1
         })
-        return res.status(200).json({message:"User login successfully", success:true})
+        return res.status(200).json({name:user.name, role:user.role, email:user.email, _id:user._id})
     } catch (error) {
         return next(error);
     }
