@@ -21,7 +21,7 @@ export const register = async (req:Request, res:Response, next:NextFunction) => 
             secure: process.env.NODE_ENV === 'production',
             maxAge:1000*60*60*24*1
         })
-        return res.status(201).json({message:"User register successfully", success:true})
+        return res.status(201).json({name:newUser.name, role:newUser.role, email:newUser.email, _id:newUser._id})
     } catch (error) {
         return next(error);
     }

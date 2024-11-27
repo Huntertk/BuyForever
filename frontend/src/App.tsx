@@ -6,6 +6,7 @@ const Loader = lazy(() => import('./components/Loader'))
 const Home = lazy(() => import('./pages/Home'))
 const Collection = lazy(() => import('./pages/Collection'))
 const Login = lazy(() => import('./pages/Login'))
+const Register = lazy(() => import('./pages/Register'))
 
 const App = () => {
   return (
@@ -17,7 +18,8 @@ const App = () => {
             <Route path="/" element={<Home />}/>
             <Route path="/collection" element={<Collection />}/>
           </Route>
-            <Route path="/login" element={<Login />}/>
+          <Route path="/login" element={<Login />}/>
+          <Route path="/register" element={<Register />}/>
         </Routes>
       </Suspense>
     </BrowserRouter>

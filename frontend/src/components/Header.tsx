@@ -13,7 +13,7 @@ const Header = () => {
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const navigate = useNavigate();
   const [logout, {data:logoutData, isLoading:logoutLoading}] = useLazyLogoutQuery()
-  const {data, isLoading} = useGetMeDataQuery({})
+  const {isLoading} = useGetMeDataQuery({})
   const {isAuthenticated, name} = useAppSelector((state) => state.user)
   
   
@@ -22,7 +22,7 @@ const Header = () => {
       navigate(0)
     }
 
-  }, [logoutData, data])
+  }, [logoutData])
 
   if(isLoading){
     return <Loader />

@@ -27,6 +27,23 @@ export const authApi = createApi({
                 }
             }
         }),
+        register:builder.mutation<{email:string,name:string, password:string, role:string, _id:string}, {email:string, name:string; password:string}>({
+            query:(body) => {
+                return {
+                    url:"/auth/register",
+                    method:"POST",
+                    body
+                }
+            },
+            async onQueryStarted ({}, {dispatch, queryFulfilled}) {
+                try {
+                    const {data} = await queryFulfilled
+                    dispatch(userLoginSuccess({email:data.email,name:data.name, role:data.role, isAuthenticated:true}))
+                } catch (error) {
+                    dispatch(userLoginSuccess({email:null,name:null, role:null, isAuthenticated:false}))
+                }
+            }
+        }),
         getMeData: builder.query<TypeUser, {}>({
             query:() => '/users/me',
             async onQueryStarted ({}, {dispatch, queryFulfilled}) {
@@ -48,4 +65,4 @@ export const authApi = createApi({
     })
 })
 
-export const {useLoginMutation, useGetMeDataQuery, useLazyLogoutQuery} = authApi
+export const {useLoginMutation, useGetMeDataQuery, useLazyLogoutQuery, useRegisterMutation} = authApi
