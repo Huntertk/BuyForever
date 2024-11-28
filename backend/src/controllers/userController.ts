@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import User from "../models/userModel";
+import bcrypt from "bcryptjs";
 import AppError from "../error/customError";
 import type { TypeUpdateMeInputPayload, TypeUpdateMyPasswordInputPayload } from "../utils/types";
 
@@ -67,14 +68,18 @@ export const updateMyPassword = async (req:Request, res:Response, next:NextFunct
     try {
         const updateMyPasswordPayload:TypeUpdateMyPasswordInputPayload = req.body;
 
-        const user = await User.findById(req.userId);
+        const user = await User.findById(req.userId).select("+password");
         if(!user){
             return next(new AppError("User not available", 404))
         }
         
-        if(updateMyPasswordPayload.password){
-            user.password = updateMyPasswordPayload.password
+        const isMatchPassword = await bcrypt.compare(updateMyPasswordPayload.currentPassword, user.password)
+        
+        if(!isMatchPassword){
+            return next(new AppError("Please provide current password correctly", 400))
         }
+        
+        user.password = updateMyPasswordPayload.password
         await user.save();
         return res.status(200).json("user password updated successfully");
     } catch (error) {

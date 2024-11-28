@@ -16,6 +16,7 @@ export type TypeUpdateMeInputPayload = {
 
 export type TypeUpdateMyPasswordInputPayload = {
     password:string;
+    currentPassword:string;
 }
 
 export type TypeNewProductInputPayload = {

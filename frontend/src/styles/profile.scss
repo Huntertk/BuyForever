@@ -1,0 +1,39 @@
+@use './variable.scss' as *;
+
+
+.profile_page_main_container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    gap: 1rem;
+
+    > .profile_details_container{
+        > p {
+            font-size: 1.5rem;
+            text-transform: uppercase;
+            font-weight: 700;
+            > span{
+                font-weight: 400;
+            }
+        }
+    }
+
+    > .profile_cta_container{
+        display: flex;
+        gap: 10px;
+        > a{
+            background-color: $primaryColor;
+            color: #fff;
+            font-size: 1.1rem;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 14px;
+            transition: all 0.3s linear;
+            &:hover{
+                cursor: pointer;
+                transform: scale(1.1);
+            }
+        }
+    }
+}
