@@ -30,7 +30,10 @@ export const userApi = createApi({
                 try {
                     await queryFulfilled;
                     //Invalidate Tag After Updating User Profile Details
-                    dispatch(authApi.util.invalidateTags(['getUser']))
+                    // dispatch(authApi.util.invalidateTags(['getUser']))
+
+                    //Refetching Get Me Data
+                    await dispatch(authApi.endpoints.getMeData.initiate({}, { forceRefetch: true }));
                 } catch (error) {
                     console.log(error);
                 }
