@@ -8,6 +8,7 @@ const Home = lazy(() => import('./pages/Home'))
 const Collection = lazy(() => import('./pages/Collection'))
 const Profile = lazy(() => import('./pages/Profile'))
 const UpdatePasswordPage = lazy(() => import('./pages/UpdatePasswordPage'))
+const UpdateProfilePage = lazy(() => import('./pages/UpdateProfilePage'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 
@@ -28,6 +29,12 @@ const App = () => {
             <Route path="/profile/update-password" element={
               <ProtectedRoute>
                 <UpdatePasswordPage />
+              </ProtectedRoute>
+            }/>
+
+            <Route path="/profile/update-profile" element={
+              <ProtectedRoute>
+                <UpdateProfilePage />
               </ProtectedRoute>
             }/>
           </Route>

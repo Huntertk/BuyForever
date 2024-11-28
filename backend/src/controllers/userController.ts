@@ -49,7 +49,7 @@ export const updateMe = async (req:Request, res:Response, next:NextFunction) => 
         if(updateMePayload.name){
             user.name = updateMePayload.name
         }
-        if(updateMePayload.email){
+        if(updateMePayload.email && updateMePayload.email !== user.email ){
             const isUserAvailable = await User.findOne({email:updateMePayload.email})
             if(isUserAvailable){
                 return next(new AppError("User already register with this email", 400))
@@ -57,7 +57,7 @@ export const updateMe = async (req:Request, res:Response, next:NextFunction) => 
             user.email = updateMePayload.email
         }
         await user.save();
-        return res.status(200).json("user updated successfully");
+        return res.status(200).json({message:"user updated successfully"});
     } catch (error) {
         return next(error)
     }

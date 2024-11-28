@@ -9,6 +9,7 @@ export const authApi = createApi({
     baseQuery:fetchBaseQuery({
         baseUrl:"/api/v1"
     }),
+    tagTypes:["getUser"],
     endpoints:(builder) => ({
         login:builder.mutation<{email:string,name:string, password:string, role:string, _id:string}, {email:string, password:string}>({
             query:(body) => {
@@ -53,7 +54,8 @@ export const authApi = createApi({
                 } catch (error) {
                     dispatch(userLoginSuccess({email:null,name:null, role:null, isAuthenticated:false}))
                 }
-            }
+            },
+            providesTags:["getUser"]
         }),
         logout:builder.query({
             query:() => {

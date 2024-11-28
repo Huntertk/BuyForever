@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
+import { authApi } from './authApi';
 
 
 
@@ -16,7 +17,25 @@ export const userApi = createApi({
                     body
                 }
             },
+        }),
+        updateProfile:builder.mutation<{message:string}, {name:string, email:string}>({
+            query:(body) => {
+                return {
+                    url:"/me/update",
+                    method:"PUT",
+                    body
+                }
+            },
+            async onQueryStarted({}, {dispatch, queryFulfilled}){
+                try {
+                    await queryFulfilled;
+                    //Invalidate Tag After Updating User Profile Details
+                    dispatch(authApi.util.invalidateTags(['getUser']))
+                } catch (error) {
+                    console.log(error);
+                }
+            }
         })
     })
 })
-export const {useUpdatePasswordMutation} = userApi;
+export const {useUpdatePasswordMutation, useUpdateProfileMutation} = userApi;
