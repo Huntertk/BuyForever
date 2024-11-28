@@ -79,9 +79,9 @@ export const updateMyPassword = async (req:Request, res:Response, next:NextFunct
             return next(new AppError("Please provide current password correctly", 400))
         }
         
-        user.password = updateMyPasswordPayload.password
+        user.password = updateMyPasswordPayload.newPassword
         await user.save();
-        return res.status(200).json("user password updated successfully");
+        return res.status(200).json({message:"user password updated successfully"});
     } catch (error) {
         return next(error)
     }

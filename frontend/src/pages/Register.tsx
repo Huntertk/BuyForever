@@ -38,6 +38,7 @@ const Register = () => {
 
     useEffect(() => {
         if(data || getMeData){
+            toast.success('User Register Successfully')
             navigate("/")
         }
 

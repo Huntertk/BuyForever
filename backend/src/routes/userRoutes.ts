@@ -29,11 +29,14 @@ router.put('/me/update',
 router.put('/me/update/password',
     authUser,
     [
-        body('password')
+        body('newPassword')
         .notEmpty()
         .withMessage("password is required")
         .isLength({min:8, max:32})
         .withMessage("password must be atleast 8 characters and cannot exceeed 32 characters"),
+        body('currentPassword')
+        .notEmpty()
+        .withMessage("current password is required")
     ],
     validationResponse,
     updateMyPassword

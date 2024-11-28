@@ -33,6 +33,7 @@ const Login = () => {
 
     useEffect(() => {
         if(data || getMeData){
+            toast.success('User Login Successfully')
             navigate("/")
         }
 
