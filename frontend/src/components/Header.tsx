@@ -15,6 +15,7 @@ const Header = () => {
   const [logout, {data:logoutData, isLoading:logoutLoading}] = useLazyLogoutQuery()
   const {isLoading} = useGetMeDataQuery({})
   const {isAuthenticated, name} = useAppSelector((state) => state.user)
+  const {cartItems} = useAppSelector((state) => state.cart)
   
   
   useEffect(() => {
@@ -41,10 +42,10 @@ const Header = () => {
             {
               isAuthenticated && (
                 <div className="cart_container">
-                  <div className="cart_icon">
+                  <div className="cart_icon" onClick={() => navigate("/cart")}>
                     <IoCartOutline />
                   </div>
-                  <span>1</span>
+                  <span >{cartItems.length}</span>
                 </div>
               ) 
             }

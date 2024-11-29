@@ -5,14 +5,49 @@ import Loader from "../components/Loader";
 import '../styles/productDetails.scss';
 import { SiTicktick } from "react-icons/si";
 import { TbTruckDelivery, TbTruckReturn } from "react-icons/tb";
-import { useAppSelector } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { FaMinus, FaPlus } from "react-icons/fa";
+import toast from "react-hot-toast";
+import { addItemToCart } from "../redux/features/cartSlice";
 
 const ProductDetails = () => {
-    const {isAuthenticated} = useAppSelector((state) => state.user)
+    const {isAuthenticated} = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch();
     const {id} = useParams();
     const navigate = useNavigate();
     const {isLoading:productDetailsLoading, data:productDetailsData, error:productDetailsError} = useGetProductByIdQuery({id});
     const [selectedImage, setSelectedImage] = useState<string>("");
+    const [quantity, setQuantity] = useState<number>(1);
+
+    const increaseQty = () => {
+        if(productDetailsData){
+            if(quantity >= productDetailsData.stock){
+                return toast.error("you can't add more product")
+            } else {
+                setQuantity((prev) => prev + 1)
+            }
+        }
+    }
+    const decreaseQty = () => {
+        if(quantity === 1 ){
+            return toast.error("quantity can't be less than 1")
+        } else {
+            setQuantity((prev) => prev - 1)
+        }
+    }
+
+    const addToCart = () => {
+        if(productDetailsData){
+            dispatch(addItemToCart({
+                image:productDetailsData.images[0],
+                price:productDetailsData.price,
+                productId: productDetailsData._id,
+                quantity,
+                stock:productDetailsData.stock,
+                title:productDetailsData.title
+            }))
+        }
+    }
 
     useEffect(() => {
         if(productDetailsData){   
@@ -57,7 +92,17 @@ const ProductDetails = () => {
             <p className="trust_point"><TbTruckDelivery /> Cash on delivery is available on this product.</p>
             <p className="trust_point"><TbTruckReturn /> Easy return and exchange policy within 7 days.</p>
             {
-               isAuthenticated ? <button>Add to Cart</button> : <p className="login_warning">Please login to buy this item</p> 
+               isAuthenticated ? (
+                <>
+                    <div className="quantityBtn">
+                        <FaMinus onClick={decreaseQty} />
+                        <p>{quantity}</p>
+                        <FaPlus onClick={increaseQty}/>
+                    </div>
+                    <button onClick={addToCart}>Add to Cart</button>
+                </>
+
+               ) : <p className="login_warning">Please login to buy this item</p> 
 
             }
         </div>

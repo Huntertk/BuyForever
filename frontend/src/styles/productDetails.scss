@@ -66,6 +66,23 @@
         > hr{
             margin: 1rem 0;
         }
+        .quantityBtn{
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 1.3rem;
+            
+            > svg{
+                font-size: 1.6rem;
+                transition: all 0.3s ease-out;
+                &:hover{
+                    cursor: pointer;
+                    transform: scale(1.1);
+                }
+            }
+        }
         > button{
             font-size: 1.2rem;
             margin-top: 1rem;
