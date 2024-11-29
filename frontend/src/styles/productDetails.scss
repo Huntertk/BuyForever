@@ -1,0 +1,104 @@
+@use './variable.scss' as *;
+
+.product_details_main_container{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    > .product_details_img_container{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        gap: 1rem;
+        > .product_details_main_image{
+            width: 100%;
+            > img{
+                width: 100%;
+            }
+        }
+
+        > .product_details_images_container{
+            width: 100px;
+
+            > button {
+                border: 1px solid transparent;
+                > img{
+                    width: 100%;
+                }
+            }
+            > .active_img{
+                border: 3px solid $primaryColor;
+            }
+        }
+    }
+
+    > .product_details_content_details_container{
+        margin-top: 2rem;
+        > h1 {
+            font-size: 1.4rem;
+        }
+        > p{
+            color: #6d6d6d;
+            font-size: 1rem;
+        }
+        > .price_tag{
+            color: #000;
+            margin: 0.5rem 0;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        > .trust_point{
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            > svg{
+                font-size: 1.5rem;
+            }
+        }
+
+        > .login_warning{
+            margin-top: 2rem;
+            font-size: 1.2rem;
+        }
+        > hr{
+            margin: 1rem 0;
+        }
+        > button{
+            font-size: 1.2rem;
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background-color: $primaryColor;
+            color: #fff;
+            border: none;
+            border-radius: 7px;
+            transition: all 0.3s ease;
+            &:hover,
+            &:active{
+                cursor: pointer;
+                transform: scale(1.1);
+            }
+        }
+    } 
+}
+
+@media screen and (min-width: 767px) {
+    .product_details_main_container{
+        display: grid;
+        grid-template-columns: repeat(2,1fr);
+        gap: 1rem;
+
+        > .product_details_img_container{
+
+
+            > .product_details_main_image{
+                width: 80%;
+                > img{
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

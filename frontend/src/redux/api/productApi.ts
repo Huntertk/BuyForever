@@ -22,7 +22,14 @@ export const productApi = createApi({
                 }
             }
         }),
+        getProductById:builder.query<TypeProduct, {id?:string}>({
+            query:(params) => {
+                return {
+                    url:`/product/${params.id}`,
+                }
+            }
+        }),
     })
 })
 
-export const {useGetProductByParamsQuery} = productApi
+export const {useGetProductByParamsQuery, useGetProductByIdQuery} = productApi

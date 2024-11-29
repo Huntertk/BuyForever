@@ -7,6 +7,7 @@ const ProtectedRoute = lazy(() => import('./components/ProtectedRoute'))
 const Home = lazy(() => import('./pages/Home'))
 const Collection = lazy(() => import('./pages/Collection'))
 const Profile = lazy(() => import('./pages/Profile'))
+const ProductDetails = lazy(() => import('./pages/ProductDetails'))
 const UpdatePasswordPage = lazy(() => import('./pages/UpdatePasswordPage'))
 const UpdateProfilePage = lazy(() => import('./pages/UpdateProfilePage'))
 const Login = lazy(() => import('./pages/Login'))
@@ -21,6 +22,7 @@ const App = () => {
           <Route element={<Layout />}>
             <Route path="/" element={<Home />}/>
             <Route path="/collection" element={<Collection />}/>
+            <Route path="/collection/:id" element={<ProductDetails />}/>
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />
