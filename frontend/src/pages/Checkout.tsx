@@ -3,9 +3,11 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { FaTrash } from "react-icons/fa";
 import { countTotal, removeItemFromCart } from '../redux/features/cartSlice';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-const Cart = () => {
-  const {cartItems, totalAmount, shippingAmount} = useAppSelector((state) => state.cart);
+import { Navigate, useNavigate } from 'react-router-dom';
+const Checkout = () => {
+  const {cartItems, totalAmount, shippingAmount, shippingInfo} = useAppSelector((state) => state.cart);
+  const [paymentMethod, setPaymentMethod] = useState<"COD"|"Card">("COD");
+  const {name, email} = useAppSelector((state) => state.user);
   const [subTotal, setSubtotal] = useState<number>(0);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -17,9 +19,13 @@ const Cart = () => {
     handleCountTotal();
     dispatch(countTotal({subTotal}));
   },[shippingAmount, cartItems, subTotal])
+
+  if(!shippingInfo){
+    return <Navigate to="/" />
+  }
   return (
     <div className="cart_main_container">
-        <h1>Your Cart</h1>
+        <h1>Checkout</h1>
         <div className="cart_product_list_container">
           {
             cartItems.length < 1 ? <h3>Your Cart is Empty</h3>: cartItems.map((item, index) => (
@@ -40,19 +46,39 @@ const Cart = () => {
             ))
           }
         </div>
+       
         {
           cartItems.length >= 1 && (
             <div className="cart_total_amout_container">
-              <div className=""></div>
+               <div className="shipping_info_container">
+                  <h3>Shipping Details</h3>
+                  <p>Name: <span>{name}</span></p>
+                  <p>Email: <span>{email}</span></p>
+                  <p>City: <span>{shippingInfo.city}</span></p>
+                  <p>State: <span>{shippingInfo.state}</span></p>
+                  <p>Country: <span>{shippingInfo.country}</span></p>
+                  <p>Phone No: <span>{shippingInfo.phone}</span></p>
+                  <p>Zip Code: <span>{shippingInfo.zipCode}</span></p>
+                </div>
               <div className="cart_total_wrapper">
                 <h3>Cart Total</h3>
                 <div className="cart_total">
                   <p>Subtotal <span>${subTotal}</span></p>
                   <p>Shipping <span>${shippingAmount}</span></p>
                   <p>Total <span>${totalAmount}</span></p>
+                  <h3>Select Payment Method</h3>
+                  <div className="select_payment">
+                    <button
+                    className={paymentMethod === 'COD' ? "selected":""}
+                    onClick={() => setPaymentMethod("COD")}
+                    >Cash on Delivery</button>
+                    <button
+                    className={paymentMethod === 'Card' ? "selected":""}
+                    onClick={() => setPaymentMethod("Card")}
+                    >Pay Online</button>
+                  </div>
                 </div>
-              
-                <button onClick={() => navigate('/shipping')}>Proceed to Shipping</button>
+                <button onClick={() => navigate('/shipping')}>Place Order</button>
               </div>
             </div>
           ) 
@@ -62,4 +88,4 @@ const Cart = () => {
   )
 }
 
-export default Cart
+export default Checkout

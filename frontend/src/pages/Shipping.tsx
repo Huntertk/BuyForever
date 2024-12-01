@@ -59,7 +59,7 @@ const Shipping = () => {
   return (
     <div className="shipping_main_container">
         <form onSubmit={handleSubmit}>
-            <h1>Shipping Info</h1>
+            <h1>Shipping Information</h1>
             <PhoneInput
             id="phone"
             defaultCountry="IN"
