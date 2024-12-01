@@ -41,17 +41,23 @@ const Cart = () => {
             ))
           }
         </div>
-        <div className="cart_total_amout_container">
-          <div className="cart_total_wrapper">
-            <h3>Cart Total</h3>
-            <div className="cart_total">
-              <p>Subtotal <span>${subTotal}</span></p>
-              <p>Shipping <span>${shippingAmount}</span></p>
-              <p>Total <span>${totalAmount}</span></p>
+        {
+          cartItems.length >= 1 && (
+            <div className="cart_total_amout_container">
+              <div className="cart_total_wrapper">
+                <h3>Cart Total</h3>
+                <div className="cart_total">
+                  <p>Subtotal <span>${subTotal}</span></p>
+                  <p>Shipping <span>${shippingAmount}</span></p>
+                  <p>Total <span>${totalAmount}</span></p>
+                </div>
+              
+                <button>Proceed to Checkout</button>
+              </div>
             </div>
-            <button>Proceed to Checkout</button>
-          </div>
-        </div>
+          ) 
+        }
+        
     </div>
   )
 }
