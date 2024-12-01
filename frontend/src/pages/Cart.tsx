@@ -3,15 +3,14 @@ import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { FaTrash } from "react-icons/fa";
 import { countTotal, removeItemFromCart } from '../redux/features/cartSlice';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 const Cart = () => {
-  const {cartItems, totalAmount} = useAppSelector((state) => state.cart);
+  const {cartItems, totalAmount, shippingAmount} = useAppSelector((state) => state.cart);
   const [subTotal, setSubtotal] = useState<number>(0);
-  const [shippingAmount, setShippingAmount] = useState<number>(0);
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   const handleCountTotal = () => {
     setSubtotal(Number(cartItems.reduce((acc, curr) => acc + curr.quantity * curr.price, 0).toFixed(2)));
-    setShippingAmount(subTotal === 0 ? 0 : subTotal > 50 ? 0: 10)
   }
   
   useEffect(() => {
@@ -52,7 +51,7 @@ const Cart = () => {
                   <p>Total <span>${totalAmount}</span></p>
                 </div>
               
-                <button>Proceed to Checkout</button>
+                <button onClick={() => navigate('/shipping')}>Proceed to Checkout</button>
               </div>
             </div>
           ) 
