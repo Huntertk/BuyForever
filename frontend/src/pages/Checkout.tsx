@@ -20,7 +20,7 @@ const Checkout = () => {
     dispatch(countTotal({subTotal}));
   },[shippingAmount, cartItems, subTotal])
 
-  if(!shippingInfo){
+  if(!shippingInfo || cartItems.length < 1){
     return <Navigate to="/" />
   }
   return (
