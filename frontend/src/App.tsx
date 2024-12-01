@@ -10,6 +10,7 @@ const Profile = lazy(() => import('./pages/Profile'))
 const ProductDetails = lazy(() => import('./pages/ProductDetails'))
 const UpdatePasswordPage = lazy(() => import('./pages/UpdatePasswordPage'))
 const UpdateProfilePage = lazy(() => import('./pages/UpdateProfilePage'))
+const Cart = lazy(() => import('./pages/Cart'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
 
@@ -23,6 +24,11 @@ const App = () => {
             <Route path="/" element={<Home />}/>
             <Route path="/collection" element={<Collection />}/>
             <Route path="/collection/:id" element={<ProductDetails />}/>
+            <Route path="/cart" element={
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            }/>
             <Route path="/profile" element={
               <ProtectedRoute>
                 <Profile />

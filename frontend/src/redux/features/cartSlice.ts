@@ -12,14 +12,23 @@ type TypeCartItemState = {
     productId:string;
     stock:number;
 }
+type TypeShippingInfoState = {
+    phone:string;
+    state:string;
+    city:string;
+    country:number;
+    zipCode:string;
+}
 
 type TypeCartState = {
-    cartItems:TypeCartItemState[]
+    cartItems:TypeCartItemState[];
+    shippingInfo:TypeShippingInfoState
 }
 
 // Define the initial state using that type
 const initialState: TypeCartState =  {
     cartItems:localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')!) : [], 
+    shippingInfo:localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')!) : {}, 
 }
 
 
@@ -42,10 +51,15 @@ export const cartSlice = createSlice({
             }
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
             toast.success("Item added to the cart")
+        },
+        removeItemFromCart:(state, action: PayloadAction<{productId:string}>) => {
+            state.cartItems = state.cartItems.filter((item) => item.productId !== action.payload.productId)
+            localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
+            toast.error("Item removed")
         }
     }
 })
 
 
-export const {addItemToCart} = cartSlice.actions;
+export const {addItemToCart, removeItemFromCart} = cartSlice.actions;
 export default cartSlice.reducer;
