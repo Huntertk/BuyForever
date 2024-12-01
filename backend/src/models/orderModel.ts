@@ -5,7 +5,7 @@ type TypeShippingInfo = {
     state:string;
     city:string;
     country:string;
-    zipCode:number;
+    zipCode:string;
 }
 
 type TypeOrderItems = {
@@ -50,7 +50,7 @@ const orderSchema = new mongoose.Schema({
             required: true
         },
         zipCode:{
-            type:Number,
+            type:String,
             required: true
         },
     },

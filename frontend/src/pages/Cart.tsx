@@ -51,7 +51,7 @@ const Cart = () => {
                   <p>Total <span>${totalAmount}</span></p>
                 </div>
               
-                <button onClick={() => navigate('/shipping')}>Proceed to Checkout</button>
+                <button onClick={() => navigate('/shipping')}>Proceed to Shipping</button>
               </div>
             </div>
           ) 

@@ -1,0 +1,55 @@
+@use './variable.scss' as *;
+
+.shipping_main_container{
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    width: 100%;
+    > form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        h1{
+            font-size: 2rem;
+        }
+        > .PhoneInput{
+            > input{
+                padding: 10px 1rem;
+                font-size: 1.2rem;
+                border: 2px solid $primaryColor;
+                outline:none;
+                border-radius: 12px;
+                transition: all 0.3s linear;
+                &:hover,
+                &:active{
+                    transform: scale(1.1);
+                }
+            }
+        }
+
+        > input,
+        > button{
+            margin-left: 2.2rem;
+            padding: 10px 1rem;
+            font-size: 1.2rem;
+            border: 2px solid $primaryColor;
+            outline:none;
+            border-radius: 12px;
+            transition: all 0.3s linear;
+            &:hover,
+            &:active{
+                transform: scale(1.1);
+            }
+        }
+        > button {
+            background-color: $primaryColor;
+            color: #fff;
+            width: 100%;
+            &:hover{
+                cursor: pointer;
+            }
+        }
+    }
+}

@@ -16,7 +16,7 @@ type TypeShippingInfoState = {
     phone:string;
     state:string;
     city:string;
-    country:number;
+    country:string;
     zipCode:string;
 }
 
@@ -65,9 +65,13 @@ export const cartSlice = createSlice({
             state.shippingAmount = action.payload.subTotal === 0 ? 0 : action.payload.subTotal > 50 ? 0 : 10;
             state.totalAmount = Number(state.cartItems.reduce((acc, curr) => acc + curr.quantity * curr.price, 0).toFixed(2)) + state.shippingAmount;
         }, 
+        addShippingInfo:(state, action: PayloadAction<{shippingInfo:{phone:string;state:string;city:string;country:string;zipCode:string;}}>) => {
+            state.shippingInfo = action.payload.shippingInfo
+            localStorage.setItem('shippingInfo', JSON.stringify(state.shippingInfo))
+        }, 
     }
 })
 
 
-export const {addItemToCart, removeItemFromCart, countTotal} = cartSlice.actions;
+export const {addItemToCart, removeItemFromCart, countTotal, addShippingInfo} = cartSlice.actions;
 export default cartSlice.reducer;
