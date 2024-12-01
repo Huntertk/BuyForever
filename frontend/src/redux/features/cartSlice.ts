@@ -60,7 +60,7 @@ export const cartSlice = createSlice({
             toast.error("Item removed")
         }, 
         countTotal: (state, action: PayloadAction<{subTotal:number}>) => {
-            const shippingAmount = action.payload.subTotal > 50 ? 0 : 10;
+            const shippingAmount = action.payload.subTotal === 0 ? 0 : action.payload.subTotal > 50 ? 0 : 10;
             state.totalAmount = Number(state.cartItems.reduce((acc, curr) => acc + curr.quantity * curr.price, 0).toFixed(2)) + shippingAmount;
         }, 
     }
