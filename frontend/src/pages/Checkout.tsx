@@ -1,11 +1,16 @@
 import '../styles/cart.scss';
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { FaTrash } from "react-icons/fa";
-import { countTotal, removeItemFromCart } from '../redux/features/cartSlice';
+import { clearCart, countTotal, removeItemFromCart } from '../redux/features/cartSlice';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useCreateOrderByCODMutation } from '../redux/api/orderApi';
+import { VscLoading } from 'react-icons/vsc';
+import toast from 'react-hot-toast';
+
 const Checkout = () => {
   const {cartItems, totalAmount, shippingAmount, shippingInfo} = useAppSelector((state) => state.cart);
+  const [createOrderByCOD,{isLoading:createOrderByCODLoading, data:createOrderByCODData, error:createOrderByCODError}] = useCreateOrderByCODMutation();
   const [paymentMethod, setPaymentMethod] = useState<"COD"|"Card">("COD");
   const {name, email} = useAppSelector((state) => state.user);
   const [subTotal, setSubtotal] = useState<number>(0);
@@ -14,11 +19,31 @@ const Checkout = () => {
   const handleCountTotal = () => {
     setSubtotal(Number(cartItems.reduce((acc, curr) => acc + curr.quantity * curr.price, 0).toFixed(2)));
   }
+
+  const handleCreateOrder = () => {
+    if(paymentMethod === 'COD'){
+      createOrderByCOD({
+        orderItems:cartItems,
+        paymentMethod,
+        shippingInfo
+      })
+    }
+  }
   
   useEffect(() => {
+    if(createOrderByCODData){
+      toast.success(`Order Created Successfully`);
+      dispatch(clearCart())
+      navigate("/orders")
+    }
+    if(createOrderByCODError){
+      if ('data' in createOrderByCODError) {
+        toast.error(`${createOrderByCODError.data}`);
+      }
+    }
     handleCountTotal();
     dispatch(countTotal({subTotal}));
-  },[shippingAmount, cartItems, subTotal])
+  },[shippingAmount, cartItems, subTotal, createOrderByCODData, createOrderByCODError])
 
   if(!shippingInfo || cartItems.length < 1){
     return <Navigate to="/" />
@@ -78,7 +103,7 @@ const Checkout = () => {
                     >Pay Online</button>
                   </div>
                 </div>
-                <button onClick={() => navigate('/shipping')}>Place Order</button>
+                <button onClick={handleCreateOrder} disabled={createOrderByCODLoading}>{createOrderByCODLoading ? <VscLoading className='loading' /> :"Place Order"}</button>
               </div>
             </div>
           ) 

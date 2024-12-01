@@ -40,7 +40,7 @@ export const createOrderByCOD = async (req:Request, res:Response, next:NextFunct
             accumulator + item.price * item.quantity
         ),0)
 
-        const shippingPrice = itemsPrice > 2000 ? 0 : 25;
+        const shippingPrice = itemsPrice > 50 ? 0 : 25;
         const totalAmount = Number((itemsPrice + shippingPrice).toFixed(2));
 
         createOrderInputPayload.shippingAmount = shippingPrice;

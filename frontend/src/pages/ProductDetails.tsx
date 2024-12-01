@@ -94,12 +94,22 @@ const ProductDetails = () => {
             {
                isAuthenticated ? (
                 <>
+
                     <div className="quantityBtn">
-                        <FaMinus onClick={decreaseQty} />
-                        <p>{quantity}</p>
-                        <FaPlus onClick={increaseQty}/>
+                        {
+                            productDetailsData.stock >= 1 && (
+                                <>
+                                    <FaMinus onClick={decreaseQty} />
+                                    <p>{quantity}</p>
+                                    <FaPlus onClick={increaseQty}/>
+                                </>
+                            )
+                        }
                     </div>
-                    <button onClick={addToCart}>Add to Cart</button>
+                    {
+                        
+                        productDetailsData.stock >= 1 ? <button onClick={addToCart}>Add to Cart</button> : <p className="outofstock_warning">Out of Stock</p>
+                    }
                 </>
 
                ) : <p className="login_warning">Please login to buy this item</p> 

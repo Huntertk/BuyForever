@@ -27,3 +27,26 @@ export type TypeUser = {
     password:string;
     role:string,
 }
+
+type TypeShippingInfo = {
+    phone:string;
+    state:string;
+    city:string;
+    country:string;
+    zipCode:string;
+}
+
+type TypeOrderItems = {
+    title:string;
+    quantity:number;
+    image:string;
+    price:number;
+    productId:string;
+
+}
+
+export type TypeOrder = {
+    shippingInfo:TypeShippingInfo;
+    orderItems:TypeOrderItems[];
+    paymentMethod:"COD"|"Card";
+}

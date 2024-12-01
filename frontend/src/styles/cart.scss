@@ -150,6 +150,14 @@
                     cursor: pointer;
                     transform: scale(1.1);
                 }
+
+                &:disabled{
+                    cursor: not-allowed;
+                    opacity: 0.8;
+                }
+            }
+            > .loading{
+                animation: rotate360 1s linear infinite;
             }
         }
     }
@@ -185,5 +193,15 @@
             align-items: center;
             gap: 2rem;
         }
+    }
+}
+
+
+@keyframes rotate360 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
     }
 }
