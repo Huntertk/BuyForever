@@ -22,13 +22,15 @@ type TypeShippingInfoState = {
 
 type TypeCartState = {
     cartItems:TypeCartItemState[];
-    shippingInfo:TypeShippingInfoState
+    shippingInfo:TypeShippingInfoState,
+    totalAmount:number;
 }
 
 // Define the initial state using that type
 const initialState: TypeCartState =  {
     cartItems:localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')!) : [], 
-    shippingInfo:localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')!) : {}, 
+    shippingInfo:localStorage.getItem('shippingInfo') ? JSON.parse(localStorage.getItem('shippingInfo')!) : {},
+    totalAmount: 0
 }
 
 
@@ -56,10 +58,14 @@ export const cartSlice = createSlice({
             state.cartItems = state.cartItems.filter((item) => item.productId !== action.payload.productId)
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems))
             toast.error("Item removed")
-        }
+        }, 
+        countTotal: (state, action: PayloadAction<{subTotal:number}>) => {
+            const shippingAmount = action.payload.subTotal > 50 ? 0 : 10;
+            state.totalAmount = Number(state.cartItems.reduce((acc, curr) => acc + curr.quantity * curr.price, 0).toFixed(2)) + shippingAmount;
+        }, 
     }
 })
 
 
-export const {addItemToCart, removeItemFromCart} = cartSlice.actions;
+export const {addItemToCart, removeItemFromCart, countTotal} = cartSlice.actions;
 export default cartSlice.reducer;
