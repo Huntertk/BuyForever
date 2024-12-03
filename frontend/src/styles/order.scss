@@ -9,6 +9,9 @@
         > .order_details_container{
             display: grid;
             grid-template-columns: 1fr;
+            > span{
+                margin: 0.5rem 0;
+            }
             > .order_item_container{
                 display: flex;
                 align-items: center;

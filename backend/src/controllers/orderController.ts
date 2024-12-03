@@ -89,7 +89,7 @@ export const getOrderDetails = async (req:Request, res:Response, next:NextFuncti
 export const getMyOrders = async (req:Request, res:Response, next:NextFunction) => {
     try {
         
-        const order = await Order.find({userId:req.userId})
+        const order = await Order.find({userId:req.userId}).sort({createdAt:-1})
         if(order.length < 1){
             return next(new AppError("Order not found", 404));
         }
