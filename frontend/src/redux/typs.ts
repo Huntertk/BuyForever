@@ -50,3 +50,18 @@ export type TypeOrder = {
     orderItems:TypeOrderItems[];
     paymentMethod:"COD"|"Card";
 }
+
+export type TypeOrders = {
+    _id:string;
+    shippingInfo:TypeShippingInfo;
+    orderItems:TypeOrderItems[]
+    userId:string;
+    itemsPrice:number;
+    shippingAmount:number;
+    totalAmount:number;
+    paymentMethod:"COD"|"Card";
+    paymentStatus:"pending"|"paid";
+    orderStatus:"Processing"|"Shipped"|"Delivered"|"Cancelled";
+    orderRemarks:string;
+    deliverdAt:Date;
+}

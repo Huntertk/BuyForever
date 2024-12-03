@@ -1,5 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import { type TypeOrder } from '../typs';
+import { TypeOrders, type TypeOrder } from '../typs';
 
 
 
@@ -17,8 +17,15 @@ export const orderApi = createApi({
                     body
                 }
             }
-        })
+        }),
+        getMyOrders:builder.query<TypeOrders[], {}>({
+            query:() => {
+                return {
+                    url:"/my-orders",
+                }
+            }
+        }),
     })
 })
 
-export const {useCreateOrderByCODMutation} = orderApi
+export const {useCreateOrderByCODMutation, useGetMyOrdersQuery} = orderApi

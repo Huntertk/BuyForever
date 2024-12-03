@@ -62,7 +62,7 @@ export const cartSlice = createSlice({
             toast.error("Item removed")
         }, 
         clearCart:(state) => {
-            state.cartItems = []
+            state.cartItems = [];
             localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
         },
         countTotal: (state, action: PayloadAction<{subTotal:number}>) => {

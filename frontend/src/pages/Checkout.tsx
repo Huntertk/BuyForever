@@ -1,7 +1,7 @@
 import '../styles/cart.scss';
 import { useAppDispatch, useAppSelector } from "../redux/hooks"
 import { FaTrash } from "react-icons/fa";
-import { clearCart, countTotal, removeItemFromCart } from '../redux/features/cartSlice';
+import {  countTotal, removeItemFromCart } from '../redux/features/cartSlice';
 import { useEffect, useState } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { useCreateOrderByCODMutation } from '../redux/api/orderApi';
@@ -27,13 +27,13 @@ const Checkout = () => {
         paymentMethod,
         shippingInfo
       })
+      
     }
   }
   
   useEffect(() => {
     if(createOrderByCODData){
       toast.success(`Order Created Successfully`);
-      dispatch(clearCart())
       navigate("/orders")
     }
     if(createOrderByCODError){
@@ -41,8 +41,10 @@ const Checkout = () => {
         toast.error(`${createOrderByCODError.data}`);
       }
     }
-    handleCountTotal();
-    dispatch(countTotal({subTotal}));
+    if(shippingAmount || cartItems || subTotal){
+      handleCountTotal();
+      dispatch(countTotal({subTotal}));
+    }
   },[shippingAmount, cartItems, subTotal, createOrderByCODData, createOrderByCODError])
 
   if(!shippingInfo || cartItems.length < 1){

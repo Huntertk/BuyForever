@@ -18,6 +18,7 @@ type TypeOrderItems = {
 }
 
 export type TypeOrder = {
+    _id:string;
     shippingInfo:TypeShippingInfo;
     orderItems:TypeOrderItems[]
     userId:string;
