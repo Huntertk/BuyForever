@@ -37,6 +37,7 @@ const Orders = () => {
           getOrdersData ? getOrdersData.map((order, index) => (
             <div className="order_details_container" key={order._id}>
               <span>{index+1}</span>
+              <p>Order ID : {order._id}</p>
               {
                 order.orderItems.map((orderItem) => (
                   <div className="order_item_container" key={orderItem.productId}>
