@@ -5,14 +5,19 @@ import '../styles/order.scss';
 import { useAppDispatch } from "../redux/hooks";
 import { clearCart } from "../redux/features/cartSlice";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
 const Orders = () => {
   const {isLoading:getOrdersLoading, data:getOrdersData, error:getOrdersError} = useGetMyOrdersQuery({});
-
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+   
   const dispatch = useAppDispatch();
 
 
   useEffect(() => {
-    dispatch(clearCart())
+    if(queryParams.get('success') == "true"){
+      dispatch(clearCart())
+    }
     if(getOrdersError){
       if ('data' in getOrdersError) {
         toast.error(`${getOrdersError.data}`);

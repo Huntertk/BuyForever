@@ -34,7 +34,7 @@ const Checkout = () => {
   useEffect(() => {
     if(createOrderByCODData){
       toast.success(`Order Created Successfully`);
-      navigate("/orders")
+      navigate("/orders?success=true")
     }
     if(createOrderByCODError){
       if ('data' in createOrderByCODError) {
