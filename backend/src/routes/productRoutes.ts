@@ -3,13 +3,27 @@ import { authorizeRoles, authUser } from '../middleware/authMiddleware';
 import { createNewProduct, deleteProduct, getAllProducts, getProduct, getProducts, updateProduct } from '../controllers/productController';
 import { validationResponse } from '../middleware/validationResponse';
 import { body } from 'express-validator';
-
+import multer from 'multer';
+import path from 'path';
 
 const router  = express.Router();
+
+const storage = multer.diskStorage({ 
+    destination: (req, file, cb) => { 
+        cb(null, path.join(__dirname, '../../public/assets/images')); 
+    },
+    filename: (req, file, cb) => {
+        cb(null, `${Date.now()}-${file.originalname}`);
+    }, 
+});
+
+const upload = multer({storage})
+
 
 router.post('/new',
     authUser,
     authorizeRoles('admin'),
+    upload.single('image',),
     [
         body('title')
         .notEmpty()

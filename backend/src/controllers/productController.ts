@@ -3,15 +3,29 @@ import Product from "../models/productModel";
 import type { TypeBaseQuery, TypeNewProductInputPayload, TypeProductQuery } from "../utils/types";
 import AppError from "../error/customError";
 import crypto from 'crypto';
+import fs from 'fs';
+import path from 'path';
 
 export const createNewProduct = async(req:Request, res:Response, next:NextFunction) => {
     try {
+        const imageFile = req.file?.filename;
+        console.log(imageFile);
+        
         const productInputPayload:TypeNewProductInputPayload = req.body;
+        if(imageFile){
+            productInputPayload.images=[`/assets/images/${req.file?.filename}`];
+        }
+         
         const uniqueId = crypto.randomUUID();
         productInputPayload.uniqueId = uniqueId;
         await Product.create(productInputPayload);
         return res.status(201).json({message:"Product is created"})
     } catch (error) {
+        fs.unlink(path.join(__dirname, "..", "..", "public", "assets", "images", `${req.file?.filename}`), (err) => {
+            if(err){
+                console.log(err);
+            }
+        })
         return next(error);
     }
 }

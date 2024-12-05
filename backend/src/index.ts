@@ -16,6 +16,7 @@ const PORT = process.env.PORT || 4000;
 
 //Middleware
 app.use(express.json());
+app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 //Routes
@@ -24,7 +25,7 @@ app.get('/health', (req:Request, res:Response) => {
 })
 
 //serving static file
-app.use('/assets/images', express.static(path.join(__dirname,"..", "public", "images")))
+app.use('/assets/images', express.static(path.join(__dirname,"..", "public", "assets","images")))
 
 
 //Serving Frontend Statically

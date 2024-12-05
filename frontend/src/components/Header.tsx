@@ -14,7 +14,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [logout, {data:logoutData, isLoading:logoutLoading}] = useLazyLogoutQuery()
   const {isLoading} = useGetMeDataQuery({})
-  const {isAuthenticated, name} = useAppSelector((state) => state.user)
+  const {isAuthenticated, name, role} = useAppSelector((state) => state.user)
   const {cartItems} = useAppSelector((state) => state.cart)
   
   
@@ -83,6 +83,9 @@ const Header = () => {
                             <>
                               <NavLink to="/profile" onClick={() => setIsDropdownOpen(false)}>Profile</NavLink>
                               <NavLink to="/orders" onClick={() => setIsDropdownOpen(false)}>Orders</NavLink>
+                              {
+                                role === 'admin' && <NavLink to="/admin/dashboard" onClick={() => setIsDropdownOpen(false)}>Dashboard</NavLink>
+                              }
                               <button disabled={logoutLoading} onClick={() => logout({})}>Logout</button>
                             </>
                           )

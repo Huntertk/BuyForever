@@ -8,7 +8,7 @@
     "dev": "nodemon ./src/index.ts",
     "seed": "nodemon ./src/seeder/seeder.ts",
     "build": "npm install && npx tsc",
-    "build-prod":"cd .. && cd frontend && npm install && npm run build && cd .. && cd backend && npm run build"
+    "build-prod": "cd .. && cd frontend && npm install && npm run build && cd .. && cd backend && npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -19,13 +19,15 @@
     "express": "^4.21.0",
     "express-validator": "^7.2.0",
     "jsonwebtoken": "^9.0.2",
-    "mongoose": "^8.6.3"
+    "mongoose": "^8.6.3",
+    "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
     "@types/cookie-parser": "^1.4.7",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.12",
     "@types/node": "^22.5.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.5.4"

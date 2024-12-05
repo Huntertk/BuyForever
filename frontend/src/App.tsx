@@ -11,11 +11,13 @@ const ProductDetails = lazy(() => import('./pages/ProductDetails'))
 const UpdatePasswordPage = lazy(() => import('./pages/UpdatePasswordPage'))
 const UpdateProfilePage = lazy(() => import('./pages/UpdateProfilePage'))
 const Cart = lazy(() => import('./pages/Cart'))
-const Shipping = lazy(() => import('./pages/Shipping'))
-const Checkout = lazy(() => import('./pages/Checkout'))
+const Shipping = lazy(() => import('./pages/Shipping'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 const Orders = lazy(() => import('./pages/Orders'))
 const Login = lazy(() => import('./pages/Login'))
 const Register = lazy(() => import('./pages/Register'))
+const AdminLayout = lazy(() => import('./components/admin/AdminLayout'))
+const Dashboard = lazy(() => import('./pages/admin/Dashboard'))
 
 const App = () => {
   return (
@@ -63,6 +65,9 @@ const App = () => {
                 <UpdateProfilePage />
               </ProtectedRoute>
             }/>
+          <Route element={<AdminLayout />}>
+            <Route path="/admin/dashboard" element={<Dashboard />}/>
+          </Route>
           </Route>
           <Route path="/login" element={<Login />}/>
           <Route path="/register" element={<Register />}/>
